@@ -25,6 +25,16 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
+          <dependency>
+
+    <groupId>org.jflex</groupId>
+
+    <artifactId>jflex</artifactId>
+
+    <version>1.9.1</version> <!-- Check for the latest version -->
+
+</dependency>
     </dependencies>
   </dependencyManagement>
 
