@@ -32,7 +32,15 @@
 
     <artifactId>jflex</artifactId>
 
-    <version>1.9.1</version> <!-- Check for the latest version -->
+    <version>1.9.1</version> 
+</dependency>
+<dependency>
+
+    <groupId>org.javacc</groupId>
+
+    <artifactId>javacc</artifactId>
+
+    <version>11.b</version> 
 
 </dependency>
     </dependencies>
@@ -93,6 +101,48 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
+        </plugin>
+
+        <plugin>
+
+            <groupId>org.codehaus.mojo</groupId>
+
+            <artifactId>exec-maven-plugin</artifactId>
+
+            <version>3.0.0</version> <!-- Use the latest version -->
+
+            <executions>
+
+                <execution>
+
+                    <id>generate-lexer</id>
+
+                    <goals>
+
+                        <goal>exec</goal>
+
+                    </goals>
+
+                    <configuration>
+
+                        <executable>java</executable>
+
+                        <arguments>
+
+                            <argument>-jar</argument>
+
+                            <argument>${settings.localRepository}/org/jflex/jflex/1.9.1/jflex-1.9.1.jar</argument>
+
+                            <argument>src/main/java/flex-cup/parser.jflex</argument> 
+
+                        </arguments>
+
+                    </configuration>
+
+                </execution>
+
+            </executions>
+
         </plugin>
       </plugins>
     </pluginManagement>
