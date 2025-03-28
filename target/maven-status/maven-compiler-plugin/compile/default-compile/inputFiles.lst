@@ -1,2 +1,5 @@
 /home/tim/Documents/GitHub/logicMath/src/main/java/com/softwing/app/MathCompiler.java
+/home/tim/Documents/GitHub/logicMath/target/generated-sources/compilation_steps/syntax/sym.java
+/home/tim/Documents/GitHub/logicMath/target/generated-sources/compilation_steps/syntax/parser_constructor.java
+/home/tim/Documents/GitHub/logicMath/target/generated-sources/Yylex.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/com/softwing/app/Printer.java

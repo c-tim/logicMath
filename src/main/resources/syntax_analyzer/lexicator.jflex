@@ -1,13 +1,14 @@
 /* Section 1 : code utilisateur inclus en préambule de   */
 /* la classe de l'analyseur lexical : package et import  */
-package flex-cup; // nom du paquetage à adapter
+
+//package flex-cup; // nom du paquetage à adapter
 %%
 /* Section 2 : directives, blocs, définitions régulières */
 /* - des directives : "%..."                             */
 /* - des blocs : "%...{"  ...  "%...}"                   */
 /* - des définitions régulières : Nom = Regexp           */ 
-%include ../Jflex.include
-%include ../JflexCup.include
+/*%include ../Jflex.include
+%include ../JflexCup.include*/
 
 %{
 /* code dans la classe de l'analyseur : attributs et     */
@@ -16,12 +17,12 @@ package flex-cup; // nom du paquetage à adapter
 
 %init{
 /* code dans le constructeur : action initiale           */
-System.out.println("Analyse Lexicale Sample0 (type any text) :");
+System.out.println("Analyse Lexicale logicMath :");
 %init}
 
 %eof{
 /* code en action finale à la sortie de l'analyseur      */
-System.out.println("Bye!");
+System.out.println("End Analyse !");
 %eof}
 
 // %caseless            /* confondre minuscules/majuscules   */
@@ -39,11 +40,12 @@ DIGIT = [0-9]GaMei
 /* Section 3 : règles lexicales sous la forme :              */
 /* Rexexp  { /* Actions = code Java */ }                     */
 
+//Token words
+"Theory"     { return (TOKEN(THEORY));}
+"Theorem"     { return (TOKEN(THEOREM));}
+"Proposition"     { return (TOKEN(THEOREM));}
 
-"Ga"      { return (TOKEN(GA));}
-"Bu"      { return (TOKEN(BU));}
-"Zo"      { return (TOKEN(ZO));}
-"Meu"      { return (TOKEN(MEU));}
+
 
 {IGNORE}  { }
 {ANY}     { WARN("Unknown char.: " + yytext()); return ERROR(); }
