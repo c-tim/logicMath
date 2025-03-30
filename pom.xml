@@ -7,13 +7,18 @@
   <artifactId>logicMath</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+
   <name>logicMath</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.version>1.0</project.version>
     <maven.compiler.release>17</maven.compiler.release>
+    <path.jflex>${project.basedir}/src/main/resources/syntax_analyzer/lexicator.jflex</path.jflex>
+    <path.cup>${project.basedir}/src/main/resources/syntax_analyzer/parser_constructor.cup</path.cup>
+    <path.syntax>compilation_steps.syntax</path.syntax>
   </properties>
 
   <dependencyManagement>
@@ -61,7 +66,6 @@
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
@@ -130,7 +134,7 @@
 
                             <argument>${settings.localRepository}/org/jflex/jflex/1.9.1/jflex-1.9.1.jar</argument>
 
-                            <argument>src/main/java/flex-cup/parser.jflex</argument> <!-- Path to your .jflex file -->
+                            <argument>${path.jflex}</argument> <!-- Path to your .jflex file -->
 
                         </arguments>
 
@@ -142,6 +146,60 @@
 
         </plugin>
 
+     <!-- jflex-maven-plugin -->
+      <plugin>
+        <groupId>de.jflex</groupId>
+        <artifactId>jflex-maven-plugin</artifactId>
+        <version>1.8.2</version>
+        <executions>
+          <execution>
+            <?m2e execute onConfiguration,onIncremental?>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <!-- https://jflex-de.github.io/jflex-web/jflex-maven-plugin/usage.html -->
+              <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+              <lexDefinitions>
+                <lexDefinition>${path.jflex}</lexDefinition>
+              </lexDefinitions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- cup-maven-plugin: https://github.com/vbmacher/cup-maven-plugin -->
+      <plugin>
+        <groupId>com.github.vbmacher</groupId>
+        <artifactId>cup-maven-plugin</artifactId>
+        <version>11b-20160615-3</version>
+        <executions>
+          <execution>
+            <?m2e ignore?>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- https://github.com/vbmacher/cup-maven-plugin -->
+          <staleMillis>10000000</staleMillis> <!-- necessary for Eclipse, which bug when re-excuting when pb in CUP file -->
+          <cupDefinition>${path.cup}</cupDefinition>
+          <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+          <expectedConflicts>0</expectedConflicts>
+          <noSummary>false</noSummary> <!-- print summary -->
+          <progress>true</progress> <!-- print progress -->
+          <dumpGrammar>false</dumpGrammar> <!-- do not print a human-readable dump of the symbols and grammar -->
+          <dumpStates>false</dumpStates> <!-- do not produce a dump of parse state machine -->
+          <dumpTables>false</dumpTables> <!-- do not produce a dump of the parse tables -->
+<!--          <debug>false</debug> --> <!-- do not produce voluminous internal debugging information about the system as it runs -->
+          <packageName>${path.syntax}</packageName>
+          <className>parser_constructor</className>
+          <symbolsName>sym</symbolsName>
+          <symbolsInterface>false</symbolsInterface>
+          <noPositions>false</noPositions>
+          <locations>true</locations>
+        </configuration>
+      </plugin>
         <plugin>
 
             <groupId>org.apache.maven.plugins</groupId>
@@ -162,6 +220,5 @@
 
         </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>
