@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.softwing.app</groupId>
@@ -16,6 +16,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.version>1.0</project.version>
     <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.source>17</maven.compiler.source>
+
     <path.jflex>${project.basedir}/src/main/resources/syntax_analyzer/lexicator.jflex</path.jflex>
     <path.cup>${project.basedir}/src/main/resources/syntax_analyzer/parser_constructor.cup</path.cup>
     <path.syntax>compilation_steps.syntax</path.syntax>
@@ -31,27 +33,33 @@
         <scope>import</scope>
       </dependency>
 
-          <dependency>
+      <dependency>
 
-    <groupId>org.jflex</groupId>
+        <groupId>org.jflex</groupId>
 
-    <artifactId>jflex</artifactId>
+        <artifactId>jflex</artifactId>
 
-    <version>1.9.1</version> 
-</dependency>
-<dependency>
+        <version>1.9.1</version>
+      </dependency>
+      <dependency>
 
-    <groupId>org.javacc</groupId>
+        <groupId>org.javacc</groupId>
 
-    <artifactId>javacc</artifactId>
+        <artifactId>javacc</artifactId>
 
-    <version>11.b</version> 
+        <version>11.b</version>
 
-</dependency>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
+
+      <dependency>
+      <groupId>com.github.vbmacher</groupId>
+      <artifactId>java-cup-runtime</artifactId>
+      <version>11b-20160615-3</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -63,90 +71,93 @@
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
+
+
+
   </dependencies>
 
   <build>
-      <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.0</version>
-        </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.1</version>
-        </plugin>
+    <plugins>
+      <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.4.0</version>
+      </plugin>
+      <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+      </plugin>
 
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.6.1</version>
-        </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.3.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.1.2</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.1.2</version>
+      </plugin>
+      <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.12.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.6.1</version>
+      </plugin>
 
-               <plugin>
+      <plugin>
 
-            <groupId>org.codehaus.mojo</groupId>
+        <groupId>org.codehaus.mojo</groupId>
 
-            <artifactId>exec-maven-plugin</artifactId>
+        <artifactId>exec-maven-plugin</artifactId>
 
-            <version>3.5.0</version> <!-- Use the latest version -->
+        <version>3.5.0</version>        <!-- Use the latest version -->
 
-            <executions>
+        <executions>
 
-                <execution>
+          <execution>
 
-                    <id>generate-lexer</id>
+            <id>generate-lexer</id>
 
-                    <goals>
+            <goals>
 
-                        <goal>exec</goal>
+              <goal>exec</goal>
 
-                    </goals>
+            </goals>
 
-                    <configuration>
+            <configuration>
 
-                        <executable>java</executable>
+              <executable>java</executable>
 
-                        <arguments>
+              <arguments>
 
-                            <argument>-jar</argument>
+                <argument>-jar</argument>
 
-                            <argument>${settings.localRepository}/org/jflex/jflex/1.9.1/jflex-1.9.1.jar</argument>
+                <argument>${settings.localRepository}/org/jflex/jflex/1.9.1/jflex-1.9.1.jar</argument>
 
-                            <argument>${path.jflex}</argument> <!-- Path to your .jflex file -->
+                <argument>${path.jflex}</argument>                <!-- Path to your .jflex file -->
 
-                        </arguments>
+              </arguments>
 
-                    </configuration>
+            </configuration>
 
-                </execution>
+          </execution>
 
-            </executions>
+        </executions>
 
-        </plugin>
+      </plugin>
 
-     <!-- jflex-maven-plugin -->
+      <!-- jflex-maven-plugin -->
       <plugin>
         <groupId>de.jflex</groupId>
         <artifactId>jflex-maven-plugin</artifactId>
@@ -182,43 +193,43 @@
         </executions>
         <configuration>
           <!-- https://github.com/vbmacher/cup-maven-plugin -->
-          <staleMillis>10000000</staleMillis> <!-- necessary for Eclipse, which bug when re-excuting when pb in CUP file -->
+          <staleMillis>10000000</staleMillis>          <!-- necessary for Eclipse, which bug when re-excuting when pb in CUP file -->
           <cupDefinition>${path.cup}</cupDefinition>
           <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
           <expectedConflicts>0</expectedConflicts>
-          <noSummary>false</noSummary> <!-- print summary -->
-          <progress>true</progress> <!-- print progress -->
-          <dumpGrammar>false</dumpGrammar> <!-- do not print a human-readable dump of the symbols and grammar -->
-          <dumpStates>false</dumpStates> <!-- do not produce a dump of parse state machine -->
-          <dumpTables>false</dumpTables> <!-- do not produce a dump of the parse tables -->
-<!--          <debug>false</debug> --> <!-- do not produce voluminous internal debugging information about the system as it runs -->
+          <noSummary>false</noSummary>          <!-- print summary -->
+          <progress>true</progress>          <!-- print progress -->
+          <dumpGrammar>false</dumpGrammar>          <!-- do not print a human-readable dump of the symbols and grammar -->
+          <dumpStates>false</dumpStates>          <!-- do not produce a dump of parse state machine -->
+          <dumpTables>false</dumpTables>          <!-- do not produce a dump of the parse tables -->
+          <!--          <debug>false</debug> -->          <!-- do not produce voluminous internal debugging information about the system as it runs -->
           <packageName>${path.syntax}</packageName>
-          <className>parser_constructor</className>
+          <className>parser</className>
           <symbolsName>sym</symbolsName>
           <symbolsInterface>false</symbolsInterface>
           <noPositions>false</noPositions>
           <locations>true</locations>
         </configuration>
       </plugin>
-        <plugin>
+      <plugin>
 
-            <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.apache.maven.plugins</groupId>
 
-            <artifactId>maven-compiler-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
 
-            <version>3.8.1</version>
+        <version>3.8.1</version>
 
-            <configuration>
+        <configuration>
 
-                <source>1.8</source>
+          <source>1.8</source>
 
-                <target>1.8</target>
+          <target>1.8</target>
 
-                <generatedSourcesDirectory>target/generated-sources/jflex</generatedSourcesDirectory>
+          <generatedSourcesDirectory>target/generated-sources/jflex</generatedSourcesDirectory>
 
-            </configuration>
+        </configuration>
 
-        </plugin>
-      </plugins>
+      </plugin>
+    </plugins>
   </build>
 </project>
