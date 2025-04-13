@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.softwing.app</groupId>
   <artifactId>logicMath</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
 
   <name>logicMath</name>
@@ -15,148 +17,85 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.version>1.0</project.version>
-    <maven.compiler.release>17</maven.compiler.release>
-    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.source>21</maven.compiler.source>
 
     <path.jflex>${project.basedir}/src/main/resources/syntax_analyzer/lexicator.jflex</path.jflex>
     <path.cup>${project.basedir}/src/main/resources/syntax_analyzer/parser_constructor.cup</path.cup>
-    <path.syntax>compilation_steps.syntax</path.syntax>
+    <path.syntax>compilation_steps</path.syntax>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit-bom</artifactId>
-        <version>5.11.0</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
-      <dependency>
-
-        <groupId>org.jflex</groupId>
-
-        <artifactId>jflex</artifactId>
-
-        <version>1.9.1</version>
-      </dependency>
-      <dependency>
-
-        <groupId>org.javacc</groupId>
-
-        <artifactId>javacc</artifactId>
-
-        <version>11.b</version>
-
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
+  
   <dependencies>
-
-      <dependency>
+    <dependency>
       <groupId>com.github.vbmacher</groupId>
       <artifactId>java-cup-runtime</artifactId>
       <version>11b-20160615-3</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.23.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+        <version>2.23.1</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <scope>test</scope>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.11.0</version>
+        <scope>test</scope>
     </dependency>
-    <!-- Optionally: parameterized tests support -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-
-
+  
   </dependencies>
-
+  
   <build>
     <plugins>
-      <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+      <!-- enforce JDK version >= 17 and Maven version >= 3.8.6 -->
       <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>3.4.0</version>
-      </plugin>
-      <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.3.1</version>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.3.0</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>3.1.2</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.1.2</version>
-      </plugin>
-      <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
-      <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.12.1</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.6.1</version>
-      </plugin>
-
-      <plugin>
-
-        <groupId>org.codehaus.mojo</groupId>
-
-        <artifactId>exec-maven-plugin</artifactId>
-
-        <version>3.5.0</version>        <!-- Use the latest version -->
-
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.4.1</version>
         <executions>
-
           <execution>
-
-            <id>generate-lexer</id>
-
+            <id>enforce-versions</id>
             <goals>
-
-              <goal>exec</goal>
-
+              <goal>enforce</goal>
             </goals>
-
             <configuration>
-
-              <executable>java</executable>
-
-              <arguments>
-
-                <argument>-jar</argument>
-
-                <argument>${settings.localRepository}/org/jflex/jflex/1.9.1/jflex-1.9.1.jar</argument>
-
-                <argument>${path.jflex}</argument>                <!-- Path to your .jflex file -->
-
-              </arguments>
-
+              <rules>
+                <requireJavaVersion>
+                  <version>[17,)</version>
+                  <message>
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+You need a JDK version >= 17 and a Maven version >= 3.8.6
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</message>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>[3.8,)</version>
+                  <message>
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+You need a JDK version >= 17 and a Maven version >= 3.8.6
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</message>
+                </requireMavenVersion>
+              </rules>
             </configuration>
-
           </execution>
-
         </executions>
-
       </plugin>
-
+      <!-- maven-eclipse configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.10</version>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <downloadJavadocs>true</downloadJavadocs>
+        </configuration>
+      </plugin>
       <!-- jflex-maven-plugin -->
       <plugin>
         <groupId>de.jflex</groupId>
@@ -193,16 +132,16 @@
         </executions>
         <configuration>
           <!-- https://github.com/vbmacher/cup-maven-plugin -->
-          <staleMillis>10000000</staleMillis>          <!-- necessary for Eclipse, which bug when re-excuting when pb in CUP file -->
+          <staleMillis>10000000</staleMillis> <!-- necessary for Eclipse, which bug when re-excuting when pb in CUP file -->
           <cupDefinition>${path.cup}</cupDefinition>
           <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
           <expectedConflicts>0</expectedConflicts>
-          <noSummary>false</noSummary>          <!-- print summary -->
-          <progress>true</progress>          <!-- print progress -->
-          <dumpGrammar>false</dumpGrammar>          <!-- do not print a human-readable dump of the symbols and grammar -->
-          <dumpStates>false</dumpStates>          <!-- do not produce a dump of parse state machine -->
-          <dumpTables>false</dumpTables>          <!-- do not produce a dump of the parse tables -->
-          <!--          <debug>false</debug> -->          <!-- do not produce voluminous internal debugging information about the system as it runs -->
+          <noSummary>false</noSummary> <!-- print summary -->
+          <progress>true</progress> <!-- print progress -->
+          <dumpGrammar>false</dumpGrammar> <!-- do not print a human-readable dump of the symbols and grammar -->
+          <dumpStates>false</dumpStates> <!-- do not produce a dump of parse state machine -->
+          <dumpTables>false</dumpTables> <!-- do not produce a dump of the parse tables -->
+<!--          <debug>false</debug> --> <!-- do not produce voluminous internal debugging information about the system as it runs -->
           <packageName>${path.syntax}</packageName>
           <className>parser</className>
           <symbolsName>sym</symbolsName>
@@ -211,25 +150,29 @@
           <locations>true</locations>
         </configuration>
       </plugin>
+      <!-- java compiler configuration -->
       <plugin>
-
         <groupId>org.apache.maven.plugins</groupId>
-
         <artifactId>maven-compiler-plugin</artifactId>
-
-        <version>3.8.1</version>
-
+        <version>3.13.0</version>
         <configuration>
-
-          <source>1.8</source>
-
-          <target>1.8</target>
-
-          <generatedSourcesDirectory>target/generated-sources/jflex</generatedSourcesDirectory>
-
+          <source>17</source>
+          <target>17</target>
         </configuration>
-
+      </plugin>     
+      <!-- surefire configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+	  <useManifestOnlyJar>false</useManifestOnlyJar>
+	  <useSystemClassLoader>true</useSystemClassLoader>
+	  <enableAssertions>true</enableAssertions>
+	  <reuseForks>false</reuseForks>
+        </configuration>
       </plugin>
     </plugins>
   </build>
+
 </project>

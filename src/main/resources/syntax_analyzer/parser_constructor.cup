@@ -1,9 +1,10 @@
-package compilation_steps.syntax;
+package compilation_steps;
 import compilation_steps.*;
-//import phase.b_syntax.ast.*; // définition de l'AST
 
-action code {:
-:};
+import java_cup.runtime.*;
+
+
+
 
 /* Lexèmes (Tokens) */
 terminal LBRACK, RBRACK, ERROR;

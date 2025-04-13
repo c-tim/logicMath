@@ -1,3 +1,14 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.referencedLibraries": [
+
+    "target/generated-sources/compilationSteps/**/*.jar",
+
+    "target/classes/**/*.jar"
+
+]
+
+]
+    
+
 }

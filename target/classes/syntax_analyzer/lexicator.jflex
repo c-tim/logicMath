@@ -1,4 +1,4 @@
-package compilation_steps.syntax;
+package compilation_steps;
 %%
 %include Jflex.include
 %include JflexCup.include
