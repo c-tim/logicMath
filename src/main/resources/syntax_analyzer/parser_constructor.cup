@@ -7,14 +7,14 @@ import java_cup.runtime.*;
 
 
 /* Lexèmes (Tokens) */
-terminal LBRACK, RBRACK, ERROR;
+terminal LBRACK, RBRACK, DOUBLEDOTS;
 terminal THEORY, THEOREM, PROPOSITION;
 
 /* Lexèmes avec valeur sémantique */
 
 
 /* Variables de la grammaire et Arbre de syntaxe */
-nonterminal axiom;
+nonterminal fileContent;
 nonterminal theory;
 
 
@@ -22,8 +22,9 @@ nonterminal theory;
 
 
 /* Règles de Productions */
-axiom     ::= theory
+fileContent     ::= theory
+|
 ;
 
-theory  ::= THEORY 
+theory  ::= THEORY LBRACK RBRACK
 ;

@@ -1,8 +1,10 @@
+compilation_steps/AST/AstDefaultVisitor.class
 compilation_steps/sym.class
 compilation/MathCompiler.class
 compilation/Printer.class
 compilation/error/CompilerException.class
 compilation_steps/cupParser.class
+compilation_steps/pkgSemantic/Semantic.class
 compilation/configPrint.class
 compilation_steps/Yylex.class
 compilation_steps/AST/ASTNode.class

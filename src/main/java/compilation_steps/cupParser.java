@@ -1,7 +1,5 @@
 package compilation_steps;
 
-
-
 import compilation.Printer;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.Scanner;

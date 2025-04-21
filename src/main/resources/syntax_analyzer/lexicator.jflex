@@ -23,12 +23,13 @@ NUMBER = [1-9] DIGIT*
 
 "{"     { return (TOKEN(LBRACK));}
 "}"     { return (TOKEN(RBRACK));}
+":"     { return (TOKEN(DOUBLEDOTS));}
 
 
 
 
 
 {IGNORE}  { }
-{ANY}     { WARN("Unknown char.: " + yytext()); return TOKEN(ERROR); }
+{ANY}     { WARN("Unknown char.: " + yytext()); return TOKEN(error); }
 
 
