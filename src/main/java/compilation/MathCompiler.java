@@ -33,7 +33,7 @@ public class MathCompiler {
     }
 
     private void printLaunchStep(String nameStep) {
-        Printer.println("Compilation : étape " + nameStep);
+        Printer.println("Compilation : step " + nameStep);
     }
 
     public void launchCompilation() {
@@ -46,13 +46,15 @@ public class MathCompiler {
         // Now the code is in System.In
         // Printer.PIECode(System.in.toString());
         // Step 1
-        printLaunchStep("Analyse Lexicale");
+        printLaunchStep("Lexical Analysis");
 
         try {
             ASTStartNode axiom = new Syntax().execute();
         } catch (CompilerException ex) {
             // TODO handle exceptions
         }
+
+        printLaunchStep("Semantical Analysis");
 
     }
 

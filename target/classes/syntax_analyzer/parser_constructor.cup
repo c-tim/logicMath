@@ -1,30 +1,76 @@
 package compilation_steps;
-import compilation_steps.*;
+import compilation_steps.AST.*;
 
-import java_cup.runtime.*;
 
 
 
 
 /* Lexèmes (Tokens) */
-terminal LBRACK, RBRACK, DOUBLEDOTS;
-terminal THEORY, THEOREM, PROPOSITION;
+terminal LBRACK, RBRACK,LPAR, RPAR, DOUBLEDOTS, SEMICOLON, EQUAL, GREATER, IMPLIES, ARROWRIGHT;
+terminal LET, FOR, IN;
+terminal SET;
+terminal THEORY, THEOREM, PROPOSITION, AXIOM, DEFINITION;
+
+
+terminal String IDENT;
 
 /* Lexèmes avec valeur sémantique */
 
 
 /* Variables de la grammaire et Arbre de syntaxe */
-nonterminal fileContent;
-nonterminal theory;
+nonterminal ASTStartNode fileContent;
+nonterminal Theory theory;
+nonterminal TheoryBody liste_instructions;
+nonterminal Proposition proposition_declaration;
+nonterminal Expression expression;
+nonterminal Ident      identificator;
+
+nonterminal proof;
+
+
+
 
 
 /* Associativités et Priorités */
 
 
 /* Règles de Productions */
-fileContent     ::= theory
-|
+fileContent     ::= theory:a   {:  RESULT = ASTStartNode.create(a);
+                                RESULT.setLocations(axleft, axright); :}
 ;
 
-theory  ::= THEORY LBRACK RBRACK
+theory  ::= THEORY:a identificator:b LBRACK liste_instructions:c RBRACK:z
+{:      RESULT = Theory.create(b, c);
+        RESULT.setLocations(axleft, cxright); :}
 ;
+
+liste_instructions ::=
+{:      RESULT = TheoryBody.create();:}
+|                     liste_instructions:a proposition_declaration:b
+{:      RESULT = (TheoryBody) a;
+        RESULT.addProposition((Proposition) b);
+        RESULT.setLocations(axleft, bxright); :}
+;
+
+proposition_declaration ::= AXIOM:a identificator:b
+{:      RESULT =  Proposition.create(true, b);
+       RESULT.setLocations(axleft, bxright); :}
+|                           PROPOSITION:a identificator:b
+{:      RESULT = Proposition.create(false, b);
+        RESULT.setLocations(axleft, bxright);  :}
+;
+
+
+identificator ::=  IDENT:a
+{:      RESULT = Ident.create(a);
+        RESULT.setLocations(axleft, axright); :}
+;
+
+
+
+proof                   ::=
+;
+
+
+
+

@@ -11,4 +11,40 @@ public abstract class AstDefaultVisitor {
     public void visit(ASTStartNode node) {
         defaultVisit(node);
     }
+
+    public void visit(ASTList node) {
+        defaultVisit(node);
+    }
+
+    public void visit(Proposition node) {
+        defaultVisit(node);
+    }
+
+    public void visit(Theory node) {
+        defaultVisit(node);
+    }
+
+    public void visit(Expression node) {
+        defaultVisit(node);
+    }
+
+    public void visit(Definition node) {
+        defaultVisit(node);
+    }
+
+    public void visit(Property node) {
+        defaultVisit(node);
+    }
+
+    public void visit(objectType node) {
+        defaultVisit(node);
+    }
+
+    public void visit(Ident node){
+        defaultVisit(node);
+    }
+
+    public void visit(TheoryBody node){
+        defaultVisit(node);
+    }
 }

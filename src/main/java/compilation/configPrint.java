@@ -19,4 +19,7 @@ public class configPrint {
     // Display the code given to the MathCompiler
     public final boolean debugInputCode = true;
 
+    // Display the locations of the node
+    public final boolean debugASTLocation = true;
+
 }

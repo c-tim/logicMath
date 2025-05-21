@@ -1,0 +1,13 @@
+
+
+
+
+|                           AXIOM:a identificator:b DOUBLEDOTS expression:c
+{:      RESULT = Proposition.create(true, b, c);
+        RESULT.setLocations(axleft, cxright); :}
+|                           PROPOSITION:a identificator:b DOUBLEDOTS expression:c
+{:      RESULT = Proposition.create(false, b, c);
+        RESULT.setLocations(axleft, cxright); :}
+|                           PROPOSITION:a identificator:b DOUBLEDOTS expression:c LBRACK proof RBRACK:z
+{:      RESULT = Proposition.create(false, b, c);
+        RESULT.setLocations(axleft, zxright); :}

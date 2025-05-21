@@ -9,10 +9,10 @@ import java_cup.runtime.lr_parser;
 
 public class cupParser {
 
-    private ComplexSymbolFactory csf;
-    private Scanner lexer;
-    private ScannerBuffer scanBuffer;
-    private lr_parser parser;
+    private final ComplexSymbolFactory csf;
+    private final Scanner lexer;
+    private final ScannerBuffer scanBuffer;
+    private final lr_parser parser;
 
     private Symbol result_parsing;
 
