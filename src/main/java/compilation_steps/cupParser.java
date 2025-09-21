@@ -27,6 +27,7 @@ public class cupParser {
     public Object execute() {
         Object axiom = null;
         result_parsing = null;
+        //Printer.PIECode(System.In);
         try {
             if (Printer.isDebugParsingEnabled()) {
                 result_parsing = parser.debug_parse();

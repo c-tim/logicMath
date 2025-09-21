@@ -1,0 +1,5 @@
+Axiom extensionalite (x : SET; y : SET) : x = y <=> (z : SET, (z in x => z in y));
+
+Axiom shemaComprehension(P : Proposition, x : SET) : y in SET, z : SET, (z in y => z in x /\ P(z));
+
+Proposition (x : SET, x = {y })

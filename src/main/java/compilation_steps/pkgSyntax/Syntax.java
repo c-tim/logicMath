@@ -10,12 +10,14 @@ public class Syntax {
 
     public ASTStartNode execute() throws CompilerException{
         final Object cupResult = new cupParser().execute();
+
 		if (cupResult == null) {
-			throw new CompilerException("Lexical or syntactic error");
+			throw new CompilerException("Lexical or syntaxic error");
 		}
 		if (!(cupResult instanceof ASTNode ast)) {
 			throw new CompilerException("axiom is not an AstNode");
 		}
+
 		/*if (Debug.TREE) {
 			Debug.log("= AST");
 			Debug.log(ast.toPrint());

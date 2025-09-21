@@ -22,4 +22,8 @@ public class configPrint {
     // Display the locations of the node
     public final boolean debugASTLocation = true;
 
+    // Display the labels of the node in the AST
+    public final boolean debugClassName= true;
+
+    public final boolean debugTestName= true;
 }

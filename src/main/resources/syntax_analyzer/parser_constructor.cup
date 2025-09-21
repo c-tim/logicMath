@@ -6,9 +6,9 @@ import compilation_steps.AST.*;
 
 
 /* Lexèmes (Tokens) */
-terminal LBRACK, RBRACK,LPAR, RPAR, DOUBLEDOTS, SEMICOLON, EQUAL, GREATER, IMPLIES, ARROWRIGHT;
-terminal LET, FOR, IN;
-terminal SET;
+terminal LBRACK, RBRACK,LPAR, RPAR, DOUBLEDOTS, SEMICOLON, EQUAL, GREATER, IMPLIES, ARROWRIGHT, COMMA;
+terminal LET, FORALL, IN, EXISTS, UNIQUE;
+terminal SET, NULL;
 terminal THEORY, THEOREM, PROPOSITION, AXIOM, DEFINITION;
 
 
@@ -22,8 +22,24 @@ nonterminal ASTStartNode fileContent;
 nonterminal Theory theory;
 nonterminal TheoryBody liste_instructions;
 nonterminal Proposition proposition_declaration;
-nonterminal Expression expression;
 nonterminal Ident      identificator;
+nonterminal ExprList liste_expressions;
+
+nonterminal Expression expression;
+nonterminal ListVariables liste_variables;
+nonterminal ExprForall forall_expression;
+nonterminal ExprExists exist_expression;
+
+
+nonterminal Statement statement;
+nonterminal Definition definition_declaration;
+
+nonterminal liste_argument_predicat;
+nonterminal ExprListPointer list_pointers_predicat;
+nonterminal ExprPointer pointer_predicat;
+nonterminal ExprEqual equal_statement;
+
+
 
 nonterminal proof;
 
@@ -32,10 +48,19 @@ nonterminal proof;
 
 
 /* Associativités et Priorités */
+precedence left COMMA;
+precedence left EQUAL;
 
 
+//precedence left liste_argument_predicat;
+/*precedence nonassoc forall_expression;
+precedence right liste_expressions;
+precedence left liste_variables;
+precedence left argument_predicat;
+*/
 /* Règles de Productions */
-fileContent     ::= theory:a   {:  RESULT = ASTStartNode.create(a);
+fileContent     ::=   {:  RESULT = ASTStartNode.create(); :}
+|                    theory:a   {:  RESULT = ASTStartNode.create(a);
                                 RESULT.setLocations(axleft, axright); :}
 ;
 
@@ -46,9 +71,13 @@ theory  ::= THEORY:a identificator:b LBRACK liste_instructions:c RBRACK:z
 
 liste_instructions ::=
 {:      RESULT = TheoryBody.create();:}
-|                     liste_instructions:a proposition_declaration:b
+|                     liste_instructions:a proposition_declaration:b SEMICOLON
 {:      RESULT = (TheoryBody) a;
         RESULT.addProposition((Proposition) b);
+        RESULT.setLocations(axleft, bxright); :}
+|                     liste_instructions:a definition_declaration:b SEMICOLON
+{:      RESULT = (TheoryBody) a;
+        RESULT.addDefinition((Definition) b);
         RESULT.setLocations(axleft, bxright); :}
 ;
 
@@ -58,8 +87,100 @@ proposition_declaration ::= AXIOM:a identificator:b
 |                           PROPOSITION:a identificator:b
 {:      RESULT = Proposition.create(false, b);
         RESULT.setLocations(axleft, bxright);  :}
+|                           AXIOM:a identificator:b DOUBLEDOTS liste_expressions:c
+{:      RESULT = Proposition.create(true, b, c);
+        RESULT.setLocations(axleft, cxright); :}
+|                           PROPOSITION:a identificator:b DOUBLEDOTS liste_expressions:c
+{:      RESULT = Proposition.create(false, b, c);
+        RESULT.setLocations(axleft, cxright); :}
+
+|                           AXIOM:a identificator:b LPAR liste_expressions:e RPAR DOUBLEDOTS liste_expressions:c
+{:      RESULT = Proposition.create(true, b, c);
+        RESULT.setLocations(axleft, cxright); :}
+|                           PROPOSITION:a identificator:b LPAR liste_expressions:e RPAR DOUBLEDOTS liste_expressions:c
+{:      RESULT = Proposition.create(false, b, c);
+        RESULT.setLocations(axleft, cxright); :}
 ;
 
+definition_declaration  ::=  DEFINITION:a identificator:b DOUBLEDOTS liste_expressions:d
+{:      RESULT =  Definition.create(b,null,  d);
+       RESULT.setLocations(axleft, dxright); :}
+|                           DEFINITION:a identificator:b LPAR liste_expressions:c RPAR:z DOUBLEDOTS liste_expressions:d
+{:      RESULT =  Definition.create(b,c,  d);
+       RESULT.setLocations(axleft, dxright); :}
+;
+
+
+
+
+
+//statement ::= liste_expressions:a
+//{:      RESULT = Statement.create(a);
+    //    RESULT.setLocations(axleft, axright); :}
+
+//;
+
+
+liste_expressions ::=   expression:a
+{:      RESULT = ExprList.create(a);
+System.out.println("should be printed here");
+        RESULT.setLocations(axleft, axright);:}
+|                       expression:a COMMA liste_expressions:b
+{:
+RESULT = b;
+ System.out.println("should sssbe printed here");
+RESULT.addExpressionToList(a);
+        RESULT.setLocations(axleft, bxright);:}
+
+;
+
+expression ::=      forall_expression:a
+              {:      RESULT = a;
+                      RESULT.setLocations(axleft, axright); :}
+|                   exist_expression:a
+              {:      RESULT = a;
+                      RESULT.setLocations(axleft, axright); :}
+|                   NULL
+|                   pointer_predicat:a
+              {:      RESULT = a;
+                      RESULT.setLocations(axleft, axright); :}
+|           expression:a EQUAL expression:b
+{:                       RESULT = ExprEqual.create(a,b);
+                        RESULT.setLocations(axleft, bxright);
+
+:}
+
+;
+
+
+forall_expression   ::=   FORALL:a liste_variables:b
+                          {:      RESULT = ExprForall.create(b);
+                                  RESULT.setLocations(axleft, bxright); :}
+;
+
+exist_expression    ::= liste_variables:a EXISTS:b
+                          {:      RESULT = ExprExists.create(a);
+                                  RESULT.setLocations(axleft, bxright); :}
+;
+
+
+
+/* TODO for the moment varibales are not declared in group*/
+liste_variables  ::=    identificator:a
+{:      RESULT = ListVariables.create(a);
+        RESULT.setLocations(axleft, axright);:}
+;
+/*                    liste_variables:a identificator:b
+{:/* TODO put back COMMA between ident of variables and fix shift/reduce issue
+        RESULT.addVariableToList(b);
+        RESULT.setLocations(axleft, bxright); :}
+;*/
+
+
+pointer_predicat          ::=    liste_variables:a DOUBLEDOTS identificator:b
+{:      RESULT = ExprPointer.create(a,b);
+        RESULT.setLocations(axleft, bxright); :}
+;
 
 identificator ::=  IDENT:a
 {:      RESULT = Ident.create(a);
@@ -68,8 +189,6 @@ identificator ::=  IDENT:a
 
 
 
-proof                   ::=
-;
 
 
 

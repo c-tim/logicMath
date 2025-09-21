@@ -9,13 +9,22 @@ public class ASTStartNode extends ASTNode {
         visitor.visit(this);
     }
 
+    public ASTStartNode() {
+        super(ASTStartNode.class.getName());
+        linked_Theory = null;
+    }
+
     public ASTStartNode(Theory _theory) {
         super(ASTStartNode.class.getName());
         linked_Theory = _theory;
+        addChild(_theory);
     }
 
     public static ASTStartNode create(final Theory _Theory) {
         return new ASTStartNode(_Theory);
+    }
+    public static ASTStartNode create() {
+        return new ASTStartNode();
     }
 
 }

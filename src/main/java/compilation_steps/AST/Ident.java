@@ -2,7 +2,12 @@ package compilation_steps.AST;
 
 public class Ident extends ASTNode {
 
+    public String getName() {
+        return name;
+    }
+
     String name;
+
 
     /**
      * @param visitor

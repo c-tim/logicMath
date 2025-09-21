@@ -47,4 +47,17 @@ public abstract class AstDefaultVisitor {
     public void visit(TheoryBody node){
         defaultVisit(node);
     }
+
+    public void visit(Statement node){
+        defaultVisit(node);
+    }
+
+    public void visit(ExprForall node){
+        defaultVisit(node);
+    }
+
+    public void visit(ListVariables node){
+        defaultVisit(node);
+    }
+
 }

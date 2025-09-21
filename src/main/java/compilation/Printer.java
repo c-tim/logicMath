@@ -1,5 +1,10 @@
 package compilation;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Printer {
 
     public static configPrint currentConfig;
@@ -9,6 +14,9 @@ public class Printer {
      * currentPrinter.println(text);
      * }
      */
+    public static void printError(String errorText){
+        println("[Error] "+ errorText);
+    }
 
     public static void println(String text) {
         print(text + "\n");
@@ -20,6 +28,13 @@ public class Printer {
 
     public static void printSeparatorLine() {
         println("------------------------");
+    }
+
+
+    public static void PrintIfEnabled(String text, boolean configOpyion){
+        if(configOpyion){
+            print(text);
+        }
     }
 
     /* Prints related to the differents steps */
@@ -53,13 +68,31 @@ public class Printer {
     }
 
     /** Print If Enabled (debugInput) the given code */
-    public static void PIECode(String text) {
+    public static void PIECodeInSystemIn(FileInputStream input) {
         if (!currentConfig.debugInputCode) {
             return;
         }
         println("Input Code :");
-        println(text);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        try {
+            // Read a line of text from System.in
+            String inputText = reader.readLine();
+            while ((inputText = reader.readLine()) != null) {
+                println(inputText);
+            }
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            printError("Cannot print code");
+        }
+
         printSeparatorLine();
+    }
+
+
+    public static void PIEDisplayClass(String text){
+        PrintIfEnabled(text, currentConfig.debugClassName);
     }
 
     public static boolean isDebugParsingEnabled() {

@@ -1,0 +1,8 @@
+Definition Natural : Set();
+Definition s : function[Natural,Natural]();
+Axiom peanoA :0 in Natural;
+Axiom peanoB :for n in Natural, S(n) in Natural;
+Axiom peanoC :(n in Natural, s(n) = 0) not exist;
+Axiom peanoD :(n in Natural, m in Natural, (s(n) = s(m) => n = m));
+Axiom peanoE : Let sub : Set(Natural), (0 in sub, (for n in sub, s(n) in Natural)) => sub = Natural;
+

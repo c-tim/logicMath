@@ -24,12 +24,16 @@ IDENTIFIER = [a-zA-Z]*
 "Axiom"         {return (TOKEN(AXIOM));}
 "Definition"         {return (TOKEN(DEFINITION));}
 
-"Let"         {return (TOKEN(LET));}
-"For"         {return (TOKEN(FOR));}
+"let"         {return (TOKEN(LET));}
+"forall"         {return (TOKEN(FORALL));}
 "in"         {return (TOKEN(IN));}
+"exists"         {return (TOKEN(EXISTS));}
+"unique"         {return (TOKEN(UNIQUE));}
+
 
 //default objects
 "Set"     { return (TOKEN(SET));}
+"Null"     { return (TOKEN(NULL));}
 
 
 
@@ -46,6 +50,10 @@ IDENTIFIER = [a-zA-Z]*
 ">"     { return (TOKEN(GREATER));}
 "=>"     { return (TOKEN(IMPLIES));}
 "->"     { return (TOKEN(ARROWRIGHT));}
+"->"     { return (TOKEN(ARROWRIGHT));}
+","     { return (TOKEN(COMMA));}
+
+
 
 
 

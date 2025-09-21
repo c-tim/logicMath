@@ -1,0 +1,14 @@
+forall x,z,y exists ambigu entre "forall x,z", "y exists" et "forall x", "y,z exists"
+
+forall x y,z exists
+forall x, y z exists
+forall x.y.z, a exists
+forall x/y/z, a exists
+forall 'x,y', z exists
+forall x,y, z exists
+forall x,y,, z exists
+forall x,y, exists z (deplace le probleme pour les futures expressions) forall x,y, z in A ou forall x, y,z in A
+x_y_z*
+
+
+Definition a(x : A, x is empty, x' +5 =6, y : B, );

@@ -22,6 +22,7 @@ public class TheoryBody extends ASTNode{
         list_definition = new ArrayList<>();
     }
 
+
     public void addProposition(final Proposition proposition){
         list_proposition.add(proposition);
     }
