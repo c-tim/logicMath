@@ -13,6 +13,12 @@ public class Proposition extends ASTNode {
         isAxiom = _isAxiom;
         propositionId = _propositionId;
     }
+    public Proposition(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement) {
+        super(Proposition.class.getName());
+        isAxiom = _isAxiom;
+        propositionId = _propositionId;
+        linkedStatement = _linked_Statement;
+    }
 
     @Override
     public String toString() {
@@ -22,15 +28,16 @@ public class Proposition extends ASTNode {
        }else{
            label = "Proposition";
        }
-       return label; // leave to add info if needed later
+
+        if (linkedStatement == null) {
+            return label;
+
+        }
+
+
+       return label + ":"+linkedStatement.toString(); // leave to add info if needed later
     }
 
-    public Proposition(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement) {
-        super(Proposition.class.getName());
-        isAxiom = _isAxiom;
-        propositionId = _propositionId;
-        linkedStatement = _linked_Statement;
-    }
 
     @Override
     public void accept(AstDefaultVisitor visitor) {
@@ -44,5 +51,8 @@ public class Proposition extends ASTNode {
     public static Proposition create(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement){
         return new Proposition(_isAxiom, _propositionId, _linked_Statement);
     }
+
+
+
 
 }

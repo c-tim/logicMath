@@ -2,7 +2,7 @@ package compilation_steps.AST;
 
 import java.util.List;
 
-public class Expression extends ASTNode {
+public class Expression extends ASTNode implements ArgPointer {
 
     protected boolean isAssertion;
 

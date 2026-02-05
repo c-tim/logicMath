@@ -6,10 +6,11 @@ import compilation_steps.AST.*;
 
 
 /* Lexèmes (Tokens) */
-terminal LBRACK, RBRACK,LPAR, RPAR, DOUBLEDOTS, SEMICOLON, EQUAL, GREATER, IMPLIES, ARROWRIGHT, COMMA;
+terminal LBRACK, RBRACK,LPAR, RPAR, DOUBLEDOTS, SEMICOLON, EQUAL, GREATER,EQUIVALENT, IMPLIES, ARROWRIGHT, COMMA;
 terminal LET, FORALL, IN, EXISTS, UNIQUE;
 terminal SET, NULL;
 terminal THEORY, THEOREM, PROPOSITION, AXIOM, DEFINITION;
+terminal AND, OR, NON, IS;
 
 
 terminal String IDENT;
@@ -23,23 +24,30 @@ nonterminal Theory theory;
 nonterminal TheoryBody liste_instructions;
 nonterminal Proposition proposition_declaration;
 nonterminal Ident      identificator;
+nonterminal Ident      identificator_variable;
+
 nonterminal ExprList liste_expressions;
 
-nonterminal Expression expression;
+nonterminal Expression expression, simple_expression;
 nonterminal ListVariables liste_variables;
 nonterminal ExprForall forall_expression;
 nonterminal ExprExists exist_expression;
+nonterminal ExprNull null_expression;
 
 
 nonterminal Statement statement;
 nonterminal Definition definition_declaration;
 
-nonterminal liste_argument_predicat;
-nonterminal ExprListPointer list_pointers_predicat;
-nonterminal ExprPointer pointer_predicat;
+//nonterminal ExprListPointer liste_argument_predicat;
+nonterminal ExprListPointer list_pointer_predicat;
+nonterminal ListVariables liste_args;
+nonterminal Expression pointer_predicat;
+nonterminal ExprVarPlaceHolder pointer_var;
+nonterminal ExpressionPointer pointer_expr;
 nonterminal ExprEqual equal_statement;
 
-
+nonterminal in_tag;
+nonterminal ExprExists in_or_type_expression;
 
 nonterminal proof;
 
@@ -50,6 +58,10 @@ nonterminal proof;
 /* Associativités et Priorités */
 precedence left COMMA;
 precedence left EQUAL;
+precedence left AND, OR;
+precedence left IMPLIES;
+precedence left EQUIVALENT;
+//precedence left expression;
 
 
 //precedence left liste_argument_predicat;
@@ -94,10 +106,10 @@ proposition_declaration ::= AXIOM:a identificator:b
 {:      RESULT = Proposition.create(false, b, c);
         RESULT.setLocations(axleft, cxright); :}
 
-|                           AXIOM:a identificator:b LPAR liste_expressions:e RPAR DOUBLEDOTS liste_expressions:c
+|                           AXIOM:a identificator:b LPAR list_pointer_predicat:e RPAR DOUBLEDOTS liste_expressions:c
 {:      RESULT = Proposition.create(true, b, c);
         RESULT.setLocations(axleft, cxright); :}
-|                           PROPOSITION:a identificator:b LPAR liste_expressions:e RPAR DOUBLEDOTS liste_expressions:c
+|                           PROPOSITION:a identificator:b LPAR list_pointer_predicat:e RPAR DOUBLEDOTS liste_expressions:c
 {:      RESULT = Proposition.create(false, b, c);
         RESULT.setLocations(axleft, cxright); :}
 ;
@@ -105,9 +117,15 @@ proposition_declaration ::= AXIOM:a identificator:b
 definition_declaration  ::=  DEFINITION:a identificator:b DOUBLEDOTS liste_expressions:d
 {:      RESULT =  Definition.create(b,null,  d);
        RESULT.setLocations(axleft, dxright); :}
-|                           DEFINITION:a identificator:b LPAR liste_expressions:c RPAR:z DOUBLEDOTS liste_expressions:d
+|                           DEFINITION:a identificator:b LPAR list_pointer_predicat:c RPAR:z DOUBLEDOTS liste_expressions:d
 {:      RESULT =  Definition.create(b,c,  d);
        RESULT.setLocations(axleft, dxright); :}
+              |                           DEFINITION:a identificator:b IS identificator DOUBLEDOTS liste_expressions:d
+              {:      RESULT =  Definition.create(b,null,  d);
+                     RESULT.setLocations(axleft, dxright); :}
+       |                           DEFINITION:a identificator:b IS identificator  LPAR list_pointer_predicat:c RPAR:z DOUBLEDOTS liste_expressions:d
+       {:      RESULT =  Definition.create(b,c,  d);
+              RESULT.setLocations(axleft, dxright); :}
 ;
 
 
@@ -125,48 +143,125 @@ liste_expressions ::=   expression:a
 {:      RESULT = ExprList.create(a);
 System.out.println("should be printed here");
         RESULT.setLocations(axleft, axright);:}
-|                       expression:a COMMA liste_expressions:b
+|                       liste_expressions:a COMMA liste_expressions:b
 {:
-RESULT = b;
+RESULT = a;
  System.out.println("should sssbe printed here");
-RESULT.addExpressionToList(a);
+RESULT.addExpressionToList(b);
         RESULT.setLocations(axleft, bxright);:}
+ |                       liste_expressions:a EQUIVALENT liste_expressions:b
+ {:
+        RESULT = a;
+         System.out.println("should sssbe printed here");
+        RESULT.addExpressionToList(b);
+                RESULT.setLocations(axleft, bxright);:}
+
+|                       liste_expressions:a IMPLIES liste_expressions:b
+{:
+        RESULT = a;
+        System.out.println("should sssbe printed here");
+        RESULT.addExpressionToList(b);
+        RESULT.setLocations(axleft, bxright);:}
+        |                       liste_expressions:a AND liste_expressions:b
+        {:
+                RESULT = a;
+                System.out.println("should sssbe printed here");
+                RESULT.addExpressionToList(b);
+                RESULT.setLocations(axleft, bxright);:}
+                |                       liste_expressions:a OR liste_expressions:b
+                {:
+                        RESULT = a;
+                        System.out.println("should sssbe printed here");
+                        RESULT.addExpressionToList(b);
+                        RESULT.setLocations(axleft, bxright);:}
+
+ |                       LPAR:a liste_expressions:e RPAR:b
+ {:
+        RESULT = e;
+         System.out.println("should sssbe printed here");
+        //RESULT.addExpressionToList(e);
+                RESULT.setLocations(axleft, bxright);:}
+
+                 |                       NON:a liste_expressions:b
+                 {:
+                        RESULT = b;
+                         System.out.println("should sssbe printed here");
+                        //RESULT.addExpressionToList(b);
+                                RESULT.setLocations(axleft, bxright);:}
+
+
 
 ;
 
-expression ::=      forall_expression:a
+expression ::= identificator_variable:a EQUAL identificator_variable:b
+
+                 {: RESULT = ExprEqual.create(a, b); RESULT.setLocations(axleft, bxright); :}
+                 %prec EQUAL
+
+ |                  forall_expression:a
               {:      RESULT = a;
                       RESULT.setLocations(axleft, axright); :}
 |                   exist_expression:a
               {:      RESULT = a;
                       RESULT.setLocations(axleft, axright); :}
-|                   NULL
-|                   pointer_predicat:a
+|                   null_expression:a
               {:      RESULT = a;
                       RESULT.setLocations(axleft, axright); :}
-|           expression:a EQUAL expression:b
-{:                       RESULT = ExprEqual.create(a,b);
-                        RESULT.setLocations(axleft, bxright);
 
-:}
 
+    |          in_or_type_expression:a
+                  {:      RESULT = a;
+                          RESULT.setLocations(axleft, axright);
+
+                         // | identificator IS  IDENT:a LPAR liste_args RPAR:z
+                          :}
+
+| identificator:a IS  identificator_variable:b
+             {:             RESULT = ExprIs.create(a,b);
+                          RESULT.setLocations(axleft, bxright);
+
+                         // | identificator IS  IDENT:a LPAR liste_args RPAR:z
+                          :}
+| identificator_variable:a
+             {:      RESULT = ExprVarStatement.create(a);
+                          RESULT.setLocations(axleft, axright);
+
+                         // | identificator IS  IDENT:a LPAR liste_args RPAR:z
+                          :}
 ;
 
+null_expression ::=             NULL:a
+ {:                                     RESULT = ExprNull.create();
+                                         RESULT.setLocations(axleft, axright); :}
+                                         ;
 
 forall_expression   ::=   FORALL:a liste_variables:b
                           {:      RESULT = ExprForall.create(b);
                                   RESULT.setLocations(axleft, bxright); :}
+|                           FORALL:a liste_variables:b in_tag identificator_variable:z
+                            {:      RESULT = ExprForall.create(b);
+                                    RESULT.setLocations(axleft, zxright); :}
+
 ;
 
-exist_expression    ::= liste_variables:a EXISTS:b
+exist_expression    ::= EXISTS:b liste_variables:a
                           {:      RESULT = ExprExists.create(a);
-                                  RESULT.setLocations(axleft, bxright); :}
+                                  RESULT.setLocations(bxleft, axright); :}
+|
+                        EXISTS:b liste_variables:a in_tag identificator_variable:z
+                          {:      RESULT = ExprExists.create(a);
+                                  RESULT.setLocations(bxleft, zxright); :}
+
+
 ;
 
-
+in_or_type_expression ::= liste_variables:a IN identificator_variable:b
+                          {:      RESULT = ExprExists.create(a);
+                                  RESULT.setLocations(bxleft, axright); :}
+;
 
 /* TODO for the moment varibales are not declared in group*/
-liste_variables  ::=    identificator:a
+liste_variables  ::=    identificator_variable:a
 {:      RESULT = ListVariables.create(a);
         RESULT.setLocations(axleft, axright);:}
 ;
@@ -176,17 +271,81 @@ liste_variables  ::=    identificator:a
         RESULT.setLocations(axleft, bxright); :}
 ;*/
 
+// no shift/reduce errors here because only in par as args
+liste_args  ::=    identificator_variable:a
+{:      RESULT = ListVariables.create(a);
+        RESULT.setLocations(axleft, axright);:}
+        |               liste_variables:a COMMA identificator_variable:b
+          {:
+                RESULT =   a;
+                  RESULT.addVariableToList(b);
+                  RESULT.setLocations(axleft, bxright);
 
-pointer_predicat          ::=    liste_variables:a DOUBLEDOTS identificator:b
-{:      RESULT = ExprPointer.create(a,b);
-        RESULT.setLocations(axleft, bxright); :}
+                  /* |  identificator:a LPAR liste_args RPAR
+                       {:      RESULT = ListVariables.create(a);
+                               RESULT.setLocations(axleft, axright);*/
+
+                  :}
+
+;
+
+list_pointer_predicat  ::= pointer_predicat:a
+                             {:      RESULT = ExprListPointer.create(a);
+                             System.out.println("should be printed here");
+                                     RESULT.setLocations(axleft, axright);:}
+                             |                       list_pointer_predicat:a SEMICOLON pointer_predicat:b
+                             {:
+                             RESULT = a;
+                             RESULT.addExpressionToList(b);
+                             :}
+;
+
+
+
+pointer_predicat          ::=   pointer_var:a
+                       {:
+                               RESULT = a;
+                               RESULT.setLocations(axleft, axright); :}
+|                               pointer_expr:a
+                       {:
+                               RESULT = a;
+                               RESULT.setLocations(axleft, axright); :}
+;
+
+
+pointer_var             ::=     liste_variables:a DOUBLEDOTS identificator_variable:b
+                           {:      RESULT = ExprVarPlaceHolder.create(a,b);
+                                   RESULT.setLocations(axleft, bxright); :}
+;
+
+pointer_expr            ::= expression:a
+    {:
+                                    RESULT = ExpressionPointer.create(a);
+                                    RESULT.setLocations(axleft, axright); :}
+
 ;
 
 identificator ::=  IDENT:a
 {:      RESULT = Ident.create(a);
         RESULT.setLocations(axleft, axright); :}
+ ;
+
+
+identificator_variable ::=  IDENT:a
+{:      RESULT = Ident.create(a);
+        RESULT.setLocations(axleft, axright); :}
+        |       PROPOSITION:a
+
+        {:      RESULT = Ident.create("p");
+                RESULT.setLocations(axleft, axright); :}
+        |   IDENT:a LPAR liste_args:b RPAR:z
+        {:      RESULT = Ident.create(a,b);
+                RESULT.setLocations(axleft, zxright); :}
 ;
 
+in_tag   ::=   IN
+|               DOUBLEDOTS
+;
 
 
 

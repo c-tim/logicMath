@@ -3,14 +3,14 @@ package compilation_steps.AST;
 import java.util.List;
 import java.util.Objects;
 
-public class ExprPointer extends ExprQuantificateur{
+public class ExprVarPlaceHolder extends ExprQuantificateur implements ArgPointer {
 
 
     Ident set;
     //List<ExprVariable> liste_variables;
 
 
-    public ExprPointer(ListVariables list, Ident _set){
+    public ExprVarPlaceHolder(ListVariables list, Ident _set){
         super();
         set=_set;
         //Collecting the ExprVariables stored in the ListVariables
@@ -22,15 +22,15 @@ public class ExprPointer extends ExprQuantificateur{
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ExprPointer that = (ExprPointer) o;
+        ExprVarPlaceHolder that = (ExprVarPlaceHolder) o;
         return Objects.equals(liste_variable, that.liste_variable);
     }
 
     
     
     
-    public static ExprPointer create(ListVariables list_var, Ident set){
-        return new ExprPointer(list_var, set);
+    public static ExprVarPlaceHolder create(ListVariables list_var, Ident set){
+        return new ExprVarPlaceHolder(list_var, set);
     }
 
     /**
@@ -40,4 +40,10 @@ public class ExprPointer extends ExprQuantificateur{
     public List<ExprVariable> getExternalVariable() {
         return liste_variable;
     }
+
+    @Override
+    public String toString(){
+      return "Pointer";
+    }
+
 }

@@ -7,18 +7,23 @@ public class ExprEqual extends Expression{
 
 
     //List<ExprVariable> liste_variables;
-    Expression left_expression;
-    Expression right_expression;
+    Ident left_expression;
+    Ident right_expression;
 
-    public ExprEqual(Expression _left_expression, Expression _right_expression){
+    public ExprEqual(Ident _left_expression, Ident _right_expression){
         super();
         left_expression=_left_expression;
         right_expression=_right_expression;
     }
 
 
-    public static ExprEqual create(Expression _left_expression, Expression _right_expression){
+    public static ExprEqual create(Ident _left_expression, Ident _right_expression){
         return new ExprEqual(_left_expression, _right_expression);
+    }
+
+    @Override
+    public String toString(){
+        return "equal";
     }
 
 }

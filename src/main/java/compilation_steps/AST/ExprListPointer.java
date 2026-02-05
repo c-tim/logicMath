@@ -6,24 +6,24 @@ import java.util.List;
 public class ExprListPointer extends Expression{
 
 
-    List<ExprPointer> list_pointers;
+    List<ArgPointer> list_pointers;
 
-    public void addExpressionToList(ExprPointer expr){
+    public void addExpressionToList(ArgPointer expr){
         list_pointers.add(expr);
     }
-    public void addExpressionToListToStart(ExprPointer expr){
+    public void addExpressionToListToStart(ArgPointer expr){
         list_pointers.addFirst(expr);
     }
 
 
-    public ExprListPointer(ExprPointer e){
+    public ExprListPointer(ArgPointer e){
         super();
         list_pointers = new ArrayList<>();
         addExpressionToList(e);
     }
 
 
-    public static ExprListPointer create(ExprPointer e){
+    public static ExprListPointer create(ArgPointer e){
         return new ExprListPointer(e);
     }
 

@@ -27,6 +27,10 @@ public class ExprExists extends ExprQuantificateur {
         return new ExprExists(list_var);
     }
 
+    @Override
+    public String toString(){
+       return "exists";
+    }
 
 
 }

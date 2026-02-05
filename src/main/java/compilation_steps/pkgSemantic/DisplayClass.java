@@ -79,4 +79,6 @@ public class DisplayClass extends AstDefaultVisitor {
     public void visit(TheoryBody node){
         defaultVisit(node);
     }
+
+
 }

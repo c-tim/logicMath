@@ -30,7 +30,7 @@ public class ExprList extends Expression{
             }
         }
 
-        /*If more than one assertion, expression invalid ("forall x,y,z x=y, y=z") must be an AND*/
+        /*If more than one assertion, expression invalid ("forall x,y,z x=y, y=z") must be with an AND*/
         return assertiveExpressionCount == 1;
     }
 
@@ -53,6 +53,14 @@ public class ExprList extends Expression{
         return new ExprList(e);
     }
 
-    
+    @Override
+    public String toString(){
+        String s = "[";
+        for (Expression e : list_expressions){
+            s+= e.toString()+",";
+        }
+        return s + "]";
+    }
+
 
 }

@@ -33,7 +33,15 @@ IDENTIFIER = [a-zA-Z]*
 
 //default objects
 "Set"     { return (TOKEN(SET));}
+
+
 "Null"     { return (TOKEN(NULL));}
+
+"and"     { return (TOKEN(AND));}
+"or"     { return (TOKEN(OR));}
+
+"non"     { return (TOKEN(NON));}
+"is"     { return (TOKEN(IS));}
 
 
 
@@ -48,6 +56,7 @@ IDENTIFIER = [a-zA-Z]*
 ";"     { return (TOKEN(SEMICOLON));}
 "="     { return (TOKEN(EQUAL));}
 ">"     { return (TOKEN(GREATER));}
+"<=>"     { return (TOKEN(EQUIVALENT));}
 "=>"     { return (TOKEN(IMPLIES));}
 "->"     { return (TOKEN(ARROWRIGHT));}
 "->"     { return (TOKEN(ARROWRIGHT));}

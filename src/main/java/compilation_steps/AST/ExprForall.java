@@ -36,4 +36,10 @@ public class ExprForall extends ExprQuantificateur{
         return new ExprForall(list_var);
     }
 
+    @Override
+    public String toString(){
+        return "Forall";
+    }
+
+
 }

@@ -42,4 +42,6 @@ list_pointers_predicat ::=  pointer_predicat
 |                          list_pointers_predicat  COMMA pointer_predicat
 ;
 
-
+|                   pointer_predicat:a
+{:      RESULT = a;
+RESULT.setLocations(axleft, axright); :}

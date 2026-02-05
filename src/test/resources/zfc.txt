@@ -1,5 +1,19 @@
-Axiom extensionalite (x : SET; y : SET) : x = y <=> (z : SET, (z in x => z in y));
+Axiom extensionalite (x : SET; y : SET) : x = y <=> (forall z : SET, (z in x <=> z in y));
 
-Axiom shemaComprehension(P : Proposition, x : SET) : y in SET, z : SET, (z in y => z in x /\ P(z));
+Axiom shemaComprehension(P : Proposition, x : SET) : forall y : SET, forall z : SET, (z in y => z in x and P(z));
+
+Axiom NullExist : exist x, non (exist y, y in x);
+
+Axiom paire(x : SET, y : SET) exist z, forall w (w in z <=> w=x or w=y) ;
+
+Definition x is Subset(y : SET) : forall w (w in x=>w in y);
+
+Axiom PowerSet(x : SET) : exist y, forall z (z in y<=> z is subset(x));
+
+Axiom union(x : SET) : exist y, forall z (z in y <=> exist w (w in x and z in w));
+
+Definition Y is singleton(X : SET): forall z, (z in Y => z = X);
+
+Axiom infinity : exist x ( null in x and forall y (y in x => union(paire(y,singleton(y)) in x);
 
 Proposition (x : SET, x = {y })

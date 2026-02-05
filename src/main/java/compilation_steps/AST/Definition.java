@@ -11,16 +11,22 @@ public class Definition extends ASTNode {
 
     Expression expression;
 
-    public Definition(Ident _definitionId,  Expression vars,Expression _expression) {
+    public Definition(Ident _definitionId,  ExprListPointer vars,Expression _expression) {
         super(Definition.class.getName());
         definitionId = _definitionId;
         expression = _expression;
-        args=turnExprToVar(vars);
+        if (vars != null){
+            args=turnExprToVar(vars);
+
+        }else {
+            args = null;
+        }
     }
 
-    public List<ExprVariable> turnExprToVar(Expression e){
+    public List<ExprVariable> turnExprToVar(ExprListPointer e){
         return  e.getExternalVariable();
     }
+
 
     public Proposition turnToProposition(final boolean isAxiom){
         if(expression == null){
@@ -38,8 +44,24 @@ public class Definition extends ASTNode {
         visitor.visit(this);
     }
 
-    public static Definition create(Ident _definitionId, Expression _var,Expression _expression){
+    public static Definition create(Ident _definitionId, ExprListPointer _var,Expression _expression){
         return new Definition(_definitionId, _var,_expression);
     }
+
+        @Override
+        public String toString(){
+            if (args == null) {
+                return "Definition :"+expression.toString();
+
+            }
+
+            String vars_s = "";
+                for (ExprVariable v : args){
+                    vars_s += v.toString()+",";
+                }
+
+
+            return "Definition (vars :"+vars_s+"):"+expression.toString();
+        }
 
 }
