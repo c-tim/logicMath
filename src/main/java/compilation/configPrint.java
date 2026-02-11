@@ -8,13 +8,13 @@ public class configPrint {
      */
 
     // Informations related to the search of Input File
-    public final boolean Input = true;
+    public boolean Input = false;
 
     // for the moment the debugParse doesnt work
-    public final boolean debugParsing = true;
+    public boolean debugParsing = true;
 
     // Display the tokens
-    public final boolean debugToken = true;
+    public boolean debugToken = true;
 
     // Display the code given to the MathCompiler
     public final boolean debugInputCode = true;
@@ -26,4 +26,16 @@ public class configPrint {
     public final boolean debugClassName= true;
 
     public final boolean debugTestName= true;
+
+    public final boolean debugSymTab= true;
+
+    public final boolean printErrorsSymbols = true;
+
+    //Stating how far the compilation is acted
+    public compilSteps levelCompilation;
+
+
+    public configPrint(compilSteps levelCompilation) {
+        this.levelCompilation = levelCompilation;
+    }
 }

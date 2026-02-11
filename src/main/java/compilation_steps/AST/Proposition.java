@@ -1,8 +1,31 @@
 package compilation_steps.AST;
 
+import java.beans.beancontext.BeanContextSupport;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Proposition extends ASTNode {
 
+    private List<ExprVariable> list_var_in_pointers;
+    private List<ExpressionPointer> list_expressions_linked_to_objects;
     boolean isAxiom;
+
+
+    public List<ExpressionPointer> getList_expressions_linked_to_objects() {
+        return list_expressions_linked_to_objects;
+    }
+
+    public List<ExprVariable> getList_var_in_pointers() {
+        return list_var_in_pointers;
+    }
+
+    public ExprVariable getVar(int i){
+        return list_var_in_pointers.get(i);
+    }
+
+    public Ident getPropositionId() {
+        return propositionId;
+    }
 
     Ident propositionId;
 
@@ -13,11 +36,21 @@ public class Proposition extends ASTNode {
         isAxiom = _isAxiom;
         propositionId = _propositionId;
     }
-    public Proposition(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement) {
+    public Proposition(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement, ListExprArgPointer list_pointers) {
         super(Proposition.class.getName());
         isAxiom = _isAxiom;
         propositionId = _propositionId;
         linkedStatement = _linked_Statement;
+        list_var_in_pointers = new ArrayList<>();
+        list_expressions_linked_to_objects = new ArrayList<>();
+
+        if(list_pointers != null){
+
+        list_expressions_linked_to_objects = list_pointers.list_expression_pointers;
+            for (ExprVarPlaceHolder vph : list_pointers.list_object_pointers) {
+                list_var_in_pointers.addAll(vph.liste_variable);
+
+            }}
     }
 
     @Override
@@ -49,8 +82,14 @@ public class Proposition extends ASTNode {
     }
 
     public static Proposition create(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement){
-        return new Proposition(_isAxiom, _propositionId, _linked_Statement);
+        return new Proposition(_isAxiom, _propositionId, _linked_Statement, null);
     }
+
+    public static Proposition create(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement, ListExprArgPointer _list){
+        return new Proposition(_isAxiom, _propositionId, _linked_Statement, _list);
+    }
+    
+
 
 
 

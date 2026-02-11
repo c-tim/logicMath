@@ -23,7 +23,7 @@ public class ExprEqual extends Expression{
 
     @Override
     public String toString(){
-        return "equal";
+        return left_expression.toString() + "=" +right_expression.toString();
     }
 
 }

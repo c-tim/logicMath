@@ -29,4 +29,9 @@ public class Expression extends ASTNode implements ArgPointer {
     public List<ExprVariable> getExternalVariable(){
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Expr";
+    }
 }

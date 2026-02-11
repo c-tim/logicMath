@@ -2,6 +2,10 @@ package compilation_steps.AST;
 
 public class Theory extends ASTNode {
 
+    public Ident getTheoryId() {
+        return theoryId;
+    }
+
     Ident theoryId;
 
     //TODO : change TheoryBody with the expressions it contains

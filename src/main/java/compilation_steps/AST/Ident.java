@@ -35,4 +35,9 @@ public class Ident extends ASTNode {
     public static Ident create(final String name, final ListVariables args){
         return new Ident(name, args);
     }
+
+    @Override
+    public String toString() {
+        return "Ident("+name+")";
+    }
 }

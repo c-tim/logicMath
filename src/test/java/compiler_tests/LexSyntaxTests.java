@@ -4,6 +4,7 @@ import compilation.error.CompilerException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import compilation.MathCompiler;

@@ -43,7 +43,14 @@ public class ExprVarPlaceHolder extends ExprQuantificateur implements ArgPointer
 
     @Override
     public String toString(){
-      return "Pointer";
+
+        String s = "";
+
+        for (ExprVariable v:liste_variable){
+            s+=v.toString();
+        }
+
+        return "VarArg["+s+"]";
     }
 
 }

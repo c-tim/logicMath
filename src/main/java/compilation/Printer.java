@@ -1,11 +1,15 @@
 package compilation;
 
+import compilation_steps.pkgSemantic.SemanticTree;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Printer {
+    //Display the depths in the Printer
+    final static String charSeparator = "--";
 
     public static configPrint currentConfig;
 
@@ -30,6 +34,14 @@ public class Printer {
         println("------------------------");
     }
 
+
+    public static String AddTextSeparator(String text, int depthLine) {
+        String returnedText = "";
+        for (int i = 0; i < depthLine; i++) {
+            returnedText += charSeparator;
+        }
+        return returnedText + text;
+    }
 
     public static void PrintIfEnabled(String text, boolean configOpyion){
         if(configOpyion){
@@ -95,13 +107,34 @@ public class Printer {
         PrintIfEnabled(text, currentConfig.debugClassName);
     }
 
+    public static void PIEDisplayClass(String text, int depth){
+        PrintIfEnabled(AddTextSeparator(text,depth), currentConfig.debugClassName);
+    }
+
+    public static void PIEDisplaySymbolTab(SemanticTree tree){
+        if (!currentConfig.debugSymTab){
+            return;
+        }
+        println("= Table des symboles (passe1)");
+        tree.getRootScope().toPrint();
+    }
+
+    public static void PIEShowsSymbolsEroors(final String text){
+        PrintIfEnabled(text, currentConfig.printErrorsSymbols);
+    }
+
     public static boolean isDebugParsingEnabled() {
         return currentConfig.debugParsing;
     }
 
     public static void init() {
         // create new config
-        currentConfig = new configPrint();
+        currentConfig = new configPrint(compilSteps.SYNTAX);
+    }
+
+    public static void init(compilSteps step) {
+        // create new config
+        currentConfig = new configPrint(step);
     }
 
     public Printer() {

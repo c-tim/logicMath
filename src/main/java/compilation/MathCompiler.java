@@ -39,6 +39,12 @@ public class MathCompiler {
         Printer.println("Compilation : step " + nameStep);
     }
 
+
+    //We stop the compilation after the step showed by current configuration
+    private boolean stopAfterStep(compilSteps current_step){
+        return Printer.currentConfig.levelCompilation.level_compilation <= current_step.level_compilation;
+    }
+
     public void launchCompilation() throws CompilerException {
         launchCompilation("/");
     }
@@ -49,20 +55,27 @@ public class MathCompiler {
         // Now the code is in System.In
         // Printer.PIECode(System.in.toString());
         // Step 1
-        printLaunchStep("Lexical Analysis");
+        printLaunchStep("Syntaxical Analysis");
         ASTStartNode axiom;
 
              axiom = new Syntax().execute();
 
+        printLaunchStep("Lexical Analysis");
 
-             printLaunchStep("Semantical Analysis");
 
 
             if (axiom == null || axiom.linked_Theory == null) {
                 Printer.printError("No theory : compilation aborted");
                 return;
             }
-            SemanticTree semanticTree = new Semantic(axiom).execute();
+
+        if (stopAfterStep(compilSteps.SYNTAX)){
+            Printer.println("Stopping at this step");
+            return;
+        }
+        printLaunchStep("Semantical Analysis");
+        SemanticTree semanticTree = new Semantic(axiom).execute();
+
 
 
     }

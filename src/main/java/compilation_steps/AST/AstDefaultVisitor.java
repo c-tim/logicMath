@@ -2,14 +2,20 @@ package compilation_steps.AST;
 
 public abstract class AstDefaultVisitor {
 
-    public void visit(ASTList node) {
-        defaultVisit(node);
-    }
 
     public void defaultVisit(ASTNode node) {
         for (ASTNode nodeChild : node.getChildren()) {
             nodeChild.accept(this);
         }
+        defaultBehaviour(node);
+    }
+
+    //Default action performed by the node
+    public void defaultBehaviour(ASTNode node){
+    }
+
+    public void visit(ASTList node) {
+        defaultVisit(node);
     }
 
     public void visit(ASTStartNode node) {
@@ -48,7 +54,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExprListPointer node) {
+    public void visit(ListExprArgPointer node) {
         defaultVisit(node);
     }
 
@@ -73,9 +79,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExprVarStatement node) {
-        defaultVisit(node);
-    }
+    public void visit(ExprVarStatement node) {defaultVisit(node);}
 
     public void visit(Ident node){
         defaultVisit(node);

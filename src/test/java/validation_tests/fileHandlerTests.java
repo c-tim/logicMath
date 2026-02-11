@@ -15,6 +15,7 @@ public class fileHandlerTests {
     @BeforeAll
     public static void initPrinter() {
         Printer.init();
+        Printer.currentConfig.Input = true;
     }
 
     @Test

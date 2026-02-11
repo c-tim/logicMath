@@ -29,7 +29,11 @@ public class ExprExists extends ExprQuantificateur {
 
     @Override
     public String toString(){
-       return "exists";
+       if (mustBeUnique){
+           return "exists (unique)" + liste_variable.toString();
+       }
+
+        return "exists" + liste_variable.toString();
     }
 
 

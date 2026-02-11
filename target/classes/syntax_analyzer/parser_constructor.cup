@@ -39,7 +39,7 @@ nonterminal Statement statement;
 nonterminal Definition definition_declaration;
 
 //nonterminal ExprListPointer liste_argument_predicat;
-nonterminal ExprListPointer list_pointer_predicat;
+nonterminal ListExprArgPointer list_pointer_predicat;
 nonterminal ListVariables liste_args;
 nonterminal Expression pointer_predicat;
 nonterminal ExprVarPlaceHolder pointer_var;
@@ -107,10 +107,10 @@ proposition_declaration ::= AXIOM:a identificator:b
         RESULT.setLocations(axleft, cxright); :}
 
 |                           AXIOM:a identificator:b LPAR list_pointer_predicat:e RPAR DOUBLEDOTS liste_expressions:c
-{:      RESULT = Proposition.create(true, b, c);
+{:      RESULT = Proposition.create(true, b, c,e);
         RESULT.setLocations(axleft, cxright); :}
 |                           PROPOSITION:a identificator:b LPAR list_pointer_predicat:e RPAR DOUBLEDOTS liste_expressions:c
-{:      RESULT = Proposition.create(false, b, c);
+{:      RESULT = Proposition.create(false, b, c,e);
         RESULT.setLocations(axleft, cxright); :}
 ;
 
@@ -120,11 +120,11 @@ definition_declaration  ::=  DEFINITION:a identificator:b DOUBLEDOTS liste_expre
 |                           DEFINITION:a identificator:b LPAR list_pointer_predicat:c RPAR:z DOUBLEDOTS liste_expressions:d
 {:      RESULT =  Definition.create(b,c,  d);
        RESULT.setLocations(axleft, dxright); :}
-              |                           DEFINITION:a identificator:b IS identificator DOUBLEDOTS liste_expressions:d
-              {:      RESULT =  Definition.create(b,null,  d);
+              |                           DEFINITION:a identificator:b IS identificator:i DOUBLEDOTS liste_expressions:d
+              {:      RESULT =  Definition.createWithIs(b,null,  d,i);
                      RESULT.setLocations(axleft, dxright); :}
-       |                           DEFINITION:a identificator:b IS identificator  LPAR list_pointer_predicat:c RPAR:z DOUBLEDOTS liste_expressions:d
-       {:      RESULT =  Definition.create(b,c,  d);
+       |                           DEFINITION:a identificator:b IS identificator:i  LPAR list_pointer_predicat:c RPAR:z DOUBLEDOTS liste_expressions:d
+       {:      RESULT =  Definition.createWithIs(b,c,  d,i);
               RESULT.setLocations(axleft, dxright); :}
 ;
 
@@ -141,52 +141,52 @@ definition_declaration  ::=  DEFINITION:a identificator:b DOUBLEDOTS liste_expre
 
 liste_expressions ::=   expression:a
 {:      RESULT = ExprList.create(a);
-System.out.println("should be printed here");
+//System.out.println("should be printed here");
         RESULT.setLocations(axleft, axright);:}
 |                       liste_expressions:a COMMA liste_expressions:b
 {:
 RESULT = a;
- System.out.println("should sssbe printed here");
+ //System.out.println("should sssbe printed here");
 RESULT.addExpressionToList(b);
         RESULT.setLocations(axleft, bxright);:}
  |                       liste_expressions:a EQUIVALENT liste_expressions:b
  {:
         RESULT = a;
-         System.out.println("should sssbe printed here");
+         //System.out.println("should sssbe printed here");
         RESULT.addExpressionToList(b);
                 RESULT.setLocations(axleft, bxright);:}
 
 |                       liste_expressions:a IMPLIES liste_expressions:b
 {:
         RESULT = a;
-        System.out.println("should sssbe printed here");
+        //System.out.println("should sssbe printed here");
         RESULT.addExpressionToList(b);
         RESULT.setLocations(axleft, bxright);:}
         |                       liste_expressions:a AND liste_expressions:b
         {:
                 RESULT = a;
-                System.out.println("should sssbe printed here");
+                //System.out.println("should sssbe printed here");
                 RESULT.addExpressionToList(b);
                 RESULT.setLocations(axleft, bxright);:}
                 |                       liste_expressions:a OR liste_expressions:b
                 {:
                         RESULT = a;
-                        System.out.println("should sssbe printed here");
+                        //System.out.println("should sssbe printed here");
                         RESULT.addExpressionToList(b);
                         RESULT.setLocations(axleft, bxright);:}
 
  |                       LPAR:a liste_expressions:e RPAR:b
  {:
         RESULT = e;
-         System.out.println("should sssbe printed here");
-        //RESULT.addExpressionToList(e);
+         //System.out.println("should sssbe printed here");
+        //RESULT.addExpressionPointerToList(e);
                 RESULT.setLocations(axleft, bxright);:}
 
                  |                       NON:a liste_expressions:b
                  {:
                         RESULT = b;
-                         System.out.println("should sssbe printed here");
-                        //RESULT.addExpressionToList(b);
+                         //System.out.println("should sssbe printed here");
+                        //RESULT.addExpressionPointerToList(b);
                                 RESULT.setLocations(axleft, bxright);:}
 
 
@@ -290,8 +290,8 @@ liste_args  ::=    identificator_variable:a
 ;
 
 list_pointer_predicat  ::= pointer_predicat:a
-                             {:      RESULT = ExprListPointer.create(a);
-                             System.out.println("should be printed here");
+                             {:      RESULT = ListExprArgPointer.create(a);
+                             //System.out.println("should be printed here");
                                      RESULT.setLocations(axleft, axright);:}
                              |                       list_pointer_predicat:a SEMICOLON pointer_predicat:b
                              {:

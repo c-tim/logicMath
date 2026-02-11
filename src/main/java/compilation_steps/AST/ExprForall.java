@@ -38,7 +38,7 @@ public class ExprForall extends ExprQuantificateur{
 
     @Override
     public String toString(){
-        return "Forall";
+        return "Forall" + liste_variable.toString();
     }
 
 
