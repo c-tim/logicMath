@@ -39,11 +39,11 @@ nonterminal Statement statement;
 nonterminal Definition definition_declaration;
 
 //nonterminal ExprListPointer liste_argument_predicat;
-nonterminal ListExprArgPointer list_pointer_predicat;
+nonterminal ListArgPredicat list_pointer_predicat;
 nonterminal ListVariables liste_args;
 nonterminal Expression pointer_predicat;
-nonterminal ExprVarPlaceHolder pointer_var;
-nonterminal ExpressionPointer pointer_expr;
+nonterminal ArgVar pointer_var;
+nonterminal ArgExpression pointer_expr;
 nonterminal ExprEqual equal_statement;
 
 nonterminal in_tag;
@@ -290,7 +290,7 @@ liste_args  ::=    identificator_variable:a
 ;
 
 list_pointer_predicat  ::= pointer_predicat:a
-                             {:      RESULT = ListExprArgPointer.create(a);
+                             {:      RESULT = ListArgPredicat.create(a);
                              //System.out.println("should be printed here");
                                      RESULT.setLocations(axleft, axright);:}
                              |                       list_pointer_predicat:a SEMICOLON pointer_predicat:b
@@ -314,13 +314,13 @@ pointer_predicat          ::=   pointer_var:a
 
 
 pointer_var             ::=     liste_variables:a DOUBLEDOTS identificator_variable:b
-                           {:      RESULT = ExprVarPlaceHolder.create(a,b);
+                           {:      RESULT = ArgVar.create(a,b);
                                    RESULT.setLocations(axleft, bxright); :}
 ;
 
 pointer_expr            ::= expression:a
     {:
-                                    RESULT = ExpressionPointer.create(a);
+                                    RESULT = ArgExpression.create(a);
                                     RESULT.setLocations(axleft, axright); :}
 
 ;

@@ -9,8 +9,9 @@ public class SimpleSymbolTable<R extends Info> extends SymbolTable<String, R> {
 
     private Map<String, R> symbols;
 
-
-    public SimpleSymbolTable() {
+    public int a= 0;
+    public SimpleSymbolTable(int _a) {
+        a=_a;
         this.symbols = new HashMap<>();
     }
 

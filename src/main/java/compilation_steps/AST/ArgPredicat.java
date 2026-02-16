@@ -1,6 +1,6 @@
 package compilation_steps.AST;
 
-public interface ArgPointer {
+public interface ArgPredicat {
 
 
 }

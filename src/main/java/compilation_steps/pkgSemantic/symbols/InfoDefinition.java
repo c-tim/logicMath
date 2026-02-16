@@ -1,27 +1,23 @@
 package compilation_steps.pkgSemantic.symbols;
 
 
-public class InfoDefinition extends Info {
+public class InfoDefinition extends InfoWithScope {
 
     private boolean defined;
 
-    private final String name;
+
 
     private final InfoObject[] vars;
 
-    private Scope scope;
+
 
 
     public InfoDefinition(final String _name, final InfoObject... args) {
-        this.name = _name;
+        super(_name, null);
         this.vars = args;
-        this.scope = null;
     }
 
 
-    public String getName() {
-        return this.name;
-    }
 
 
     public InfoObject[] getArgs() {
@@ -29,13 +25,6 @@ public class InfoDefinition extends Info {
     }
 
 
-    public Scope getScope() {
-        return this.scope;
-    }
-
-    public void setScope(final Scope sc) {
-        this.scope = sc;
-    }
 
     @Override
     public String toString() {
@@ -47,7 +36,7 @@ public class InfoDefinition extends Info {
         }
 
 
-        return "("+ defined + ")_"+name +"["+extended_vars+"]";
+        return name +"["+extended_vars+"]";
 
 
     }

@@ -31,6 +31,10 @@ public class configPrint {
 
     public final boolean printErrorsSymbols = true;
 
+    //Print the Ast Tree to show especially the children of each node
+    public final boolean printAstTreeChildren = true;
+
+
     //Stating how far the compilation is acted
     public compilSteps levelCompilation;
 

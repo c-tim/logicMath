@@ -34,7 +34,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExpressionPointer node) {
+    public void visit(ArgExpression node) {
         defaultVisit(node);
     }
 
@@ -54,7 +54,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ListExprArgPointer node) {
+    public void visit(ListArgPredicat node) {
         defaultVisit(node);
     }
 
@@ -63,7 +63,7 @@ public abstract class AstDefaultVisitor {
     }
 
 
-    public void visit(ExprPredicat node) {
+    public void visit(Predicat node) {
         defaultVisit(node);
     }
 
@@ -75,7 +75,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExprVarPlaceHolder node) {
+    public void visit(ArgVar node) {
         defaultVisit(node);
     }
 

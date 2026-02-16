@@ -16,7 +16,10 @@ public class Semantic {
     }
 
     public SemanticTree execute() throws CompilerException {
+
+
         new DisplayClass(semanticTree);
+        new DisplayAstChildren(semanticTree);
         int errors = new BuildSymbolTable(semanticTree).execute();
         if (errors>0){
             throw new CompilerException(errors + "errors found during Symbol Table construction");

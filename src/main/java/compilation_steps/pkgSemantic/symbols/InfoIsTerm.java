@@ -5,29 +5,11 @@ package compilation_steps.pkgSemantic.symbols;
 public class InfoIsTerm extends Info{
 
 
-    private final String name;
-
-    private Scope scope;
-
 
     public InfoIsTerm(final String _name) {
-        this.name = _name;
-        this.scope = null;
+        super(_name);
     }
 
-
-    public String getName() {
-        return this.name;
-    }
-
-
-    public Scope getScope() {
-        return this.scope;
-    }
-
-    public void setScope(final Scope sc) {
-        this.scope = sc;
-    }
 
     @Override
     public String toString() {

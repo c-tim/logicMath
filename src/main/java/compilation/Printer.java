@@ -43,6 +43,10 @@ public class Printer {
         return returnedText + text;
     }
 
+    public static void PrintIfEnabled(String text, boolean configOpyion, int ident){
+       PrintIfEnabled(AddTextSeparator(text, ident), configOpyion);
+    }
+
     public static void PrintIfEnabled(String text, boolean configOpyion){
         if(configOpyion){
             print(text);
@@ -110,6 +114,8 @@ public class Printer {
     public static void PIEDisplayClass(String text, int depth){
         PrintIfEnabled(AddTextSeparator(text,depth), currentConfig.debugClassName);
     }
+
+
 
     public static void PIEDisplaySymbolTab(SemanticTree tree){
         if (!currentConfig.debugSymTab){

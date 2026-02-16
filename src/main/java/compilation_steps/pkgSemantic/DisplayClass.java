@@ -54,7 +54,7 @@ public class DisplayClass extends AstDefaultVisitor {
     }
 
     @Override
-    public void visit(ExpressionPointer node) {
+    public void visit(ArgExpression node) {
         PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
@@ -80,7 +80,7 @@ public class DisplayClass extends AstDefaultVisitor {
     }
 
     @Override
-    public void visit(ListExprArgPointer node) {
+    public void visit(ListArgPredicat node) {
         PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
@@ -91,7 +91,7 @@ public class DisplayClass extends AstDefaultVisitor {
     }
 
     @Override
-    public void visit(ExprPredicat node) {
+    public void visit(Predicat node) {
         PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
@@ -109,7 +109,7 @@ public class DisplayClass extends AstDefaultVisitor {
     }
 
     @Override
-    public void visit(ExprVarPlaceHolder node) {
+    public void visit(ArgVar node) {
         PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }

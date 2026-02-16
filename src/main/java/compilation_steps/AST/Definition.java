@@ -1,62 +1,30 @@
 package compilation_steps.AST;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /* This is a predicat*/
-public class Definition extends ASTNode {
+public class Definition extends Predicat {
 
-    public Ident getDefinitionId() {
-        return definitionId;
-    }
 
+
+    Ident typeIs;
     public Ident getTypeIs() {
         return typeIs;
     }
-
-    Ident definitionId, typeIs;
-
     /*public List<ExprVariable> getArgs() {
         return args;
     }*/
 
     //List<ExprVariable> args;
 
-    public List<ExpressionPointer> getList_expressions_linked_to_objects() {
-        return list_expressions_linked_to_objects;
-    }
 
-    public List<ExprVariable> getList_var_in_pointers() {
-        return list_var_in_pointers;
-    }
 
-    public ExprVariable getVar(int i){
-        return list_var_in_pointers.get(i);
-    }
 
-    public Expression getExpression() {
-        return expression;
-    }
+    public Definition(Ident _definitionId, ListArgPredicat l, Expression _expression, Ident _typeIs) {
+        super(_definitionId,  l,  _expression);
 
-    List<ExpressionPointer> list_expressions_linked_to_objects;
-    List<ExprVariable> list_var_in_pointers;
-
-    Expression expression;
-
-    public Definition(Ident _definitionId, ListExprArgPointer l, Expression _expression, Ident _typeIs) {
-        super(Definition.class.getName());
-        definitionId = _definitionId;
-        expression = _expression;
         typeIs = _typeIs;
-        list_expressions_linked_to_objects = new ArrayList<>();
-        list_var_in_pointers = new ArrayList<>();
-        if (l!=null) {
-            list_expressions_linked_to_objects = l.list_expression_pointers;
-            for (ExprVarPlaceHolder vph : l.list_object_pointers) {
-                list_var_in_pointers.addAll(vph.liste_variable);
 
-            }
-        }
         /*if (vars != null){
             args=turnExprToVar(vars);
 
@@ -65,7 +33,7 @@ public class Definition extends ASTNode {
         }*/
     }
 
-    public List<ExprVariable> turnExprToVar(ListExprArgPointer e){
+    public List<ExprVariable> turnExprToVar(ListArgPredicat e){
         return  e.getExternalVariable();
     }
 
@@ -86,12 +54,12 @@ public class Definition extends ASTNode {
         visitor.visit(this);
     }
 
-    public static Definition create(Ident _definitionId, ListExprArgPointer _var, Expression _expression){
+    public static Definition create(Ident _definitionId, ListArgPredicat _var, Expression _expression){
         return new Definition(_definitionId, _var,_expression,null);
     }
 
     //variante of definition using "is" statement, example : x is prime
-    public static Definition createWithIs(Ident _definitionId, ListExprArgPointer _var, Expression _expression, Ident typeIs){
+    public static Definition createWithIs(Ident _definitionId, ListArgPredicat _var, Expression _expression, Ident typeIs){
         return new Definition(_definitionId, _var,_expression, typeIs);
     }
 

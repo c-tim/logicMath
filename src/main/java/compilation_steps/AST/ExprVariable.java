@@ -11,7 +11,7 @@ public class ExprVariable extends Expression{
 
     Ident ident;
 
-    public void addLinkedPointerArgs(ExpressionPointer p){
+    public void addLinkedPointerArgs(ArgExpression p){
         linked_pointer_args.add(p.expr);
     }
 

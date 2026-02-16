@@ -6,7 +6,7 @@ import compilation_steps.pkgSemantic.symbols.*;
 
 public class BuildSymbolTable extends AstDefaultVisitor {
 
-    protected static final String OBJECT = "Object";
+    protected static final String OBJECT = "Root";
 
     protected final SemanticTree semanticTree;
 
@@ -34,9 +34,11 @@ public class BuildSymbolTable extends AstDefaultVisitor {
         return errors;
     }
 
+
+
     protected void addTheory() {
         Scope sc = semanticTree.getRootScope();
-        final InfoTheory th = new InfoTheory(OBJECT, null);
+        final InfoTheory th = new InfoTheory(OBJECT);
         sc = newTheoryScope(sc, th);
         //final InfoProposition m = new InfoProposition("boolean", "equals", new InfoVar("this", OBJECT), new InfoVar("o", OBJECT));
         //newMethodScope(sc, m);
@@ -65,17 +67,17 @@ public class BuildSymbolTable extends AstDefaultVisitor {
 
     /* Create Scopes */
     protected Scope newTheoryScope(final Scope sc, final InfoTheory th) {
-        ErrorIfNotNull(sc.insertTheory(th), errorDuplicationMessage);
+        ErrorIfNotNull(sc.VerifyAndInsertElement(th), errorDuplicationMessage);
         final Scope scope_child = new Scope(sc, th.getName());
         th.setScope(scope_child);
         return scope_child;
     }
 
     protected Scope newDefinitionScope(final Scope sc, final InfoDefinition e) {
-        ErrorIfNotNull(sc.insertDefinition(e), errorDuplicationMessage);
+        ErrorIfNotNull(sc.VerifyAndInsertElement(e), errorDuplicationMessage);
         final Scope enfants = new Scope(sc, e.getName() + "_args");
         for (InfoObject v :e.getArgs()) {
-            ErrorIfNotNull(enfants.insertObject(v), errorDuplicationMessage);
+            ErrorIfNotNull(enfants.VerifyAndInsertElement(v), errorDuplicationMessage);
         }
         final Scope pf = new Scope(enfants, e.getName());
         e.setScope(pf);
@@ -83,10 +85,10 @@ public class BuildSymbolTable extends AstDefaultVisitor {
     }
 
     protected Scope newPropositionScope(final Scope sc, final InfoProposition m) {
-        ErrorIfNotNull(sc.insertProposition(m), errorDuplicationMessage);
+        ErrorIfNotNull(sc.VerifyAndInsertElement(m), errorDuplicationMessage);
         final Scope enfants = new Scope(sc, m.getName() + "_args");
         for (InfoObject v : m.getArgs()) {
-            ErrorIfNotNull(enfants.insertObject(v), errorDuplicationMessage);
+            ErrorIfNotNull(enfants.VerifyAndInsertElement(v), errorDuplicationMessage);
         }
         final Scope pf = new Scope(enfants, m.getName());
         m.setScope(pf);
@@ -94,10 +96,10 @@ public class BuildSymbolTable extends AstDefaultVisitor {
     }
 
     protected Scope newExpressionScope(final Scope sc, final InfoExpression e) {
-        ErrorIfNotNull(sc.insertExpression(e), errorDuplicationMessage);
+        ErrorIfNotNull(sc.VerifyAndInsertElement(e), errorDuplicationMessage);
         final Scope enfants = new Scope(sc, e.getName() + "_args");
         for (InfoObject v : e.getArgs()) {
-            ErrorIfNotNull(enfants.insertObject(v), errorDuplicationMessage);
+            ErrorIfNotNull(enfants.VerifyAndInsertElement(v), errorDuplicationMessage);
         }
         final Scope pf = new Scope(enfants, e.getName());
         e.setScope(pf);
@@ -140,7 +142,7 @@ public class BuildSymbolTable extends AstDefaultVisitor {
     public void visit(final Theory n) {
         setTheory(n, currentTheory);
         setScope(n, currentScope);
-        currentTheory = new InfoTheory(n.getTheoryId().getName(),"Root_theory");
+        currentTheory = new InfoTheory(n.getTheoryId().getName());
         this.currentScope = newTheoryScope(currentScope, currentTheory);
         n.getTheoryId().accept(this);
         //n.parentId().accept(this);
@@ -179,7 +181,7 @@ public class BuildSymbolTable extends AstDefaultVisitor {
             listObjectExpr[i] = new InfoObject(n.getVar(i).getIdentName());
         }
 
-        final InfoDefinition m = new InfoDefinition(n.getDefinitionId().getName(), listObjectExpr);
+        final InfoDefinition m = new InfoDefinition(n.getPredicatid().getName(), listObjectExpr);
         currentScope = newDefinitionScope(currentScope, m);
         for (ASTNode f : n.getChildren()) {
             f.accept(this);
@@ -201,7 +203,7 @@ public class BuildSymbolTable extends AstDefaultVisitor {
             listObjectExpr[i] = new InfoObject(n.getVar(i).getIdentName());
         }
 
-        final InfoProposition m = new InfoProposition(n.getPropositionId().getName(), listObjectExpr);
+        final InfoProposition m = new InfoProposition(n.getPredicatid().getName(), listObjectExpr);
         currentScope = newPropositionScope(currentScope, m);
         for (ASTNode f : n.getChildren()) {
             f.accept(this);
