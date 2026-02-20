@@ -11,42 +11,17 @@ public class Definition extends Predicat {
     public Ident getTypeIs() {
         return typeIs;
     }
-    /*public List<ExprVariable> getArgs() {
-        return args;
-    }*/
-
-    //List<ExprVariable> args;
-
-
-
 
     public Definition(Ident _definitionId, ListArgPredicat l, Expression _expression, Ident _typeIs) {
-        super(_definitionId,  l,  _expression);
+        super(Definition.class.toString(),_definitionId,  l,  _expression);
 
         typeIs = _typeIs;
-
-        /*if (vars != null){
-            args=turnExprToVar(vars);
-
-        }else {
-            args = null;
-        }*/
+        if(typeIs!=null){
+        addChild(typeIs);}
     }
 
-    public List<ExprVariable> turnExprToVar(ListArgPredicat e){
+    /*public ASTList<ExprVariable> turnExprToVar(ListArgPredicat e){
         return  e.getExternalVariable();
-    }
-
-
-    /*public Proposition turnToProposition(final boolean isAxiom){
-        if(expression == null){
-             return new Proposition(isAxiom, definitionId);
-
-        }
-        ExprList list = new ExprList(expression);
-        list.addExpressionToListToStart(new ExprForall(args));
-        Statement s = new StatementExpression(list);
-        return new Proposition(isAxiom, definitionId, list);
     }*/
 
     @Override
@@ -70,13 +45,17 @@ public class Definition extends Predicat {
 
             }
 */
-            String vars_s = "";
-                for (ExprVariable v : list_var_in_pointers){
-                    vars_s += v.toString()+",";
-                }
+         /*   String vars_s = "";
+            for (int i = 0; i < list_var_in_pointers.size(); i++) {
+                vars_s += list_var_in_pointers.get(i).toString()+",";
+            }
 
 
-            return "Definition (vars :"+vars_s+"):"+expression.toString();
+            return "Definition (vars :"+vars_s+"):"+expression.toString();*/
+            if (typeIs != null){
+                return "Is_Definition";
+            }
+            return "Definition "+ getPredicatid();
         }
 
 }

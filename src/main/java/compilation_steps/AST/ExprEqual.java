@@ -11,9 +11,11 @@ public class ExprEqual extends Expression{
     Ident right_expression;
 
     public ExprEqual(Ident _left_expression, Ident _right_expression){
-        super();
+        super(ExprEqual.class.toString());
         left_expression=_left_expression;
         right_expression=_right_expression;
+        addChild(left_expression);
+        addChild(right_expression);
     }
 
 
@@ -22,8 +24,13 @@ public class ExprEqual extends Expression{
     }
 
     @Override
+    public void accept(AstDefaultVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public String toString(){
-        return left_expression.toString() + "=" +right_expression.toString();
+        return "Equals";
     }
 
 }

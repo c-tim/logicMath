@@ -9,11 +9,14 @@ public class ExprExists extends ExprQuantificateur {
     public boolean mustBeUnique;
 
     public ExprExists(ListVariables list){
-        super();
+        super(ExprExists.class.toString());
+
         if(list.liste_variables != null){
             liste_variable.addAll(list.liste_variables);
         }
     }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -23,17 +26,22 @@ public class ExprExists extends ExprQuantificateur {
         return (mustBeUnique == that.mustBeUnique) && Objects.equals(liste_variable, that.liste_variable);
     }
 
+    @Override
+    public void accept(AstDefaultVisitor visitor) {
+        visitor.visit(this);
+    }
     public static ExprExists create(ListVariables list_var){
         return new ExprExists(list_var);
     }
 
     @Override
     public String toString(){
-       if (mustBeUnique){
+      /* if (mustBeUnique){
            return "exists (unique)" + liste_variable.toString();
        }
 
-        return "exists" + liste_variable.toString();
+        return "exists" + liste_variable.toString();*/
+        return "Exists";
     }
 
 

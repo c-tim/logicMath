@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public abstract class ExprQuantificateur extends Expression{
 
-    public List<ExprVariable> getListe_variable() {
+    public ASTList<ExprVariable> getListe_variable() {
         return liste_variable;
     }
 
@@ -15,13 +15,23 @@ public abstract class ExprQuantificateur extends Expression{
     }
 
 
-    //liste des variables créé dans exists, mustBeUnique est commun a tous
-    List<ExprVariable> liste_variable;
 
-    public ExprQuantificateur(){
-        super();
-        liste_variable = new ArrayList<>();
+    //liste des variables créé dans exists, mustBeUnique est commun a tous
+    ASTList<ExprVariable> liste_variable;
+
+    public ExprQuantificateur(String className){
+       super(className);
+        liste_variable = new ASTList<>();
+//        addChild(liste_variable);
     }
+
+    @Override
+    public void refactorList(ASTNode n ){
+        for (ExprVariable evar : liste_variable){
+            addChild(evar.ident);
+        }
+    }
+
 
     public void addListe_variable(ExprVariable variable) {
         liste_variable.add(variable);

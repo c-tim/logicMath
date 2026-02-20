@@ -17,7 +17,7 @@ public class Semantic {
 
     public SemanticTree execute() throws CompilerException {
 
-
+        new refactorListExpression(semanticTree);
         new DisplayClass(semanticTree);
         new DisplayAstChildren(semanticTree);
         int errors = new BuildSymbolTable(semanticTree).execute();

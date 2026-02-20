@@ -12,6 +12,7 @@
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ArgVar.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/AstDefaultVisitor.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/Definition.java
+/home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprCallPredicat.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprEqual.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprExists.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprForall.java
@@ -19,7 +20,6 @@
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprList.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprNull.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprQuantificateur.java
-/home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprVarStatement.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/ExprVariable.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/Expression.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/Ident.java
@@ -35,10 +35,12 @@
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/AST/objectType.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/cupParser.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/BuildSymbolTable.java
+/home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/DisplayAstChildren.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/DisplayClass.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/Semantic.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/SemanticAttribute.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/SemanticTree.java
+/home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/refactorListExpression.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/Info.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/InfoDefinition.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/InfoExpression.java
@@ -51,6 +53,7 @@
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/SimpleSymbolTable.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/SymbolTable.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/symbolFinder.java
+/home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSemantic/symbols/symbolTableManager.java
 /home/tim/Documents/GitHub/logicMath/src/main/java/compilation_steps/pkgSyntax/Syntax.java
 /home/tim/Documents/GitHub/logicMath/target/generated-sources/compilation_steps/Yylex.java
 /home/tim/Documents/GitHub/logicMath/target/generated-sources/compilation_steps/parser.java

@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class ASTNode {
 
-    private List<ASTNode> children;
+    List<ASTNode> children;
 
     public abstract void accept(AstDefaultVisitor visitor);
 
@@ -28,7 +28,7 @@ public abstract class ASTNode {
         return children;
     }
 
-    void addChildren(final ASTNode... _children) {
+    public void addChildren(final ASTNode... _children) {
         for (ASTNode e : _children) {
             children.add(e);
         }

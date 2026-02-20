@@ -5,20 +5,30 @@ import java.util.List;
 
 public class ExprList extends Expression{
 
-    List<Expression> list_expressions;
+    ASTList<Expression> list_expressions;
 
     public void addExpressionToList(Expression expr){
         list_expressions.add(expr);
     }
-    public void addExpressionToListToStart(Expression expr){
+   /* public void addExpressionToListToStart(Expression expr){
         list_expressions.addFirst(expr);
-    }
+    }*/
 
 
     public ExprList(Expression e){
-        super();
-        list_expressions = new ArrayList<>();
+        super(ExprList.class.toString());
+
+        list_expressions = new ASTList<>();
         addExpressionToList(e);
+}
+
+@Override
+public void refactorList(ASTNode n){
+    list_expressions.putElementsInParents(this);
+    for (Expression e :list_expressions){
+        e.refactorList(this);
+    }
+
 }
 
     @Override
@@ -38,15 +48,20 @@ public class ExprList extends Expression{
      * @return 
      */
     @Override
-    public List<ExprVariable> getExternalVariable() {
-        List<ExprVariable> l = new ArrayList<>();
+    public ASTList<ExprVariable> getExternalVariable() {
+        ASTList<ExprVariable> l = new ASTList<>();
         for(Expression e : list_expressions){
-            List<ExprVariable> result = e.getExternalVariable();
+            ASTList<ExprVariable> result = e.getExternalVariable();
             if (result != null){
                 l.addAll(result);
             }
         }
         return l;
+    }
+
+    @Override
+    public void accept(AstDefaultVisitor visitor) {
+        visitor.visit(this);
     }
 
     public static ExprList create(Expression e){
@@ -55,11 +70,12 @@ public class ExprList extends Expression{
 
     @Override
     public String toString(){
-        String s = "[";
+        /*String s = "[";
         for (Expression e : list_expressions){
             s+= e.toString()+",";
         }
-        return s + "]";
+        return s + "]";*/
+        return "ExprList";
     }
 
 

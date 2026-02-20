@@ -15,7 +15,7 @@ public class ExprVariable extends Expression{
         linked_pointer_args.add(p.expr);
     }
 
-    public List<Expression> getLinked_pointer_args() {
+    public ASTList<Expression> getLinked_pointer_args() {
         return linked_pointer_args;
     }
 
@@ -23,15 +23,24 @@ public class ExprVariable extends Expression{
         return ident;
     }
 
-    List<Expression> linked_pointer_args;
+    ASTList<Expression> linked_pointer_args;
 
 
     public ExprVariable(Ident _ident){
-        super();
+        super(ExprVariable.class.toString());
         ident= _ident;
-        linked_pointer_args = new ArrayList<>();
+        linked_pointer_args = new ASTList<>();
+        addChild(ident);
+
     }
 
+    /*public void refactorList(){
+        linked_pointer_args.putElementsInParents(this);
+    }*/
+    @Override
+    public void accept(AstDefaultVisitor visitor) {
+        visitor.visit(this);
+    }
     public static ExprVariable create(Ident _ident){
         return new ExprVariable(_ident);
     }

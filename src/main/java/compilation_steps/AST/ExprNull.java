@@ -11,8 +11,11 @@ public class ExprNull extends Expression{
     }
 
     public ExprNull() {
-        super();
+        super(ExprNull.class.toString());
+
     }
+
+
 
     public static ExprNull create(){
         return new ExprNull();

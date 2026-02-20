@@ -11,7 +11,7 @@ public class ArgVar extends ExprQuantificateur implements ArgPredicat {
 
 
     public ArgVar(ListVariables list, Ident _set){
-        super();
+        super(ArgVar.class.toString());
         set=_set;
         //Collecting the ExprVariables stored in the ListVariables
         if(list.liste_variables != null){
@@ -34,10 +34,10 @@ public class ArgVar extends ExprQuantificateur implements ArgPredicat {
     }
 
     /**
-     * @return 
+     * @return
      */
     @Override
-    public List<ExprVariable> getExternalVariable() {
+    public ASTList<ExprVariable> getExternalVariable() {
         return liste_variable;
     }
 

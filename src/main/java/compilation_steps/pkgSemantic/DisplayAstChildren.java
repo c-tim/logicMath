@@ -1,6 +1,7 @@
 package compilation_steps.pkgSemantic;
 
 import compilation.Printer;
+import compilation.configPrint;
 import compilation_steps.AST.*;
 
 public class DisplayAstChildren extends  AstDefaultVisitor{
@@ -10,6 +11,8 @@ public class DisplayAstChildren extends  AstDefaultVisitor{
     // Count the depths of the node to display it with
     int depthLine = 0;
 
+    configPrint p;
+
     // for code lisibility, call PIEDisplayClass with separator Depth (PIE : Print If Enabled = see configPrint)
     private void PIEClassWithDepth(String text) {
         Printer.PrintIfEnabled(text, Printer.currentConfig.printAstTreeChildren,depthLine);
@@ -17,10 +20,13 @@ public class DisplayAstChildren extends  AstDefaultVisitor{
 
 
     public DisplayAstChildren(SemanticTree tree) {
+
         tree.getStartNode().accept(this);
     }
 
 
+    private String simpleClassName (ASTNode n) {
+        return n.getLabelClass().substring(n.getLabelClass().lastIndexOf('.') + 1);}
 
     @Override
     public void visit(ASTStartNode node) {
@@ -30,7 +36,7 @@ public class DisplayAstChildren extends  AstDefaultVisitor{
 
     @Override
     public void defaultVisit(ASTNode n){
-        PIEClassWithDepth(n.getClass().toString()+"\n");
+        PIEClassWithDepth(simpleClassName(n)+"\n");
         depthLine++;
         for(ASTNode child : n.getChildren()){
             defaultVisit(child);
@@ -40,7 +46,10 @@ public class DisplayAstChildren extends  AstDefaultVisitor{
 
     @Override
     public void visit(ASTList n){
-        PIEClassWithDepth(n.getClass().toString()+"\n");
+        PIEClassWithDepth(simpleClassName(n)+"\n");
+
+
+
         depthLine++;
         for(ASTNode child : n.getChildren()){
             defaultVisit(child);

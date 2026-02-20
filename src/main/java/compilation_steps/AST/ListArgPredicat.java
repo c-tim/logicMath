@@ -1,13 +1,15 @@
 package compilation_steps.AST;
 
+import compilation.Printer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListArgPredicat extends Expression{
 
 
-    List<ArgExpression> list_expression_pointers;
-    List<ArgVar> list_object_pointers;
+    ASTList<ArgExpression> list_expression_pointers;
+    ASTList<ArgVar> list_object_pointers;
 
 
     private void addExpressionPointerToList(ArgExpression expr){
@@ -24,18 +26,24 @@ public class ListArgPredicat extends Expression{
             addExpressionPointerToList((ArgExpression) expr);
     } else{
 
-        System.out.println("ERROR on cast type of ArgPointer");
+        Printer.printError("cast type of ArgPointer");
     }
 
     }
 
 
     public ListArgPredicat(ArgPredicat e){
-        super();
-        list_expression_pointers = new ArrayList<>();
-        list_object_pointers = new ArrayList<>();
+        super(ListArgPredicat.class.toString());
+        list_expression_pointers = new ASTList<>();
+        list_object_pointers = new ASTList<>();
 
         addExpressionToList(e);
+
+    }
+
+    public void refactorList(){
+        list_object_pointers.putElementsInParents(this);
+        list_expression_pointers.putElementsInParents(this);
     }
 
 

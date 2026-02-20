@@ -9,11 +9,11 @@ public class Proposition extends Predicat {
     Expression linkedStatement;
 
     public Proposition(boolean _isAxiom, Ident _propositionId) {
-        super(_propositionId, null, null);
+        super(Proposition.class.toString(),_propositionId, null, null);
         isAxiom = _isAxiom;
    }
     public Proposition(final boolean _isAxiom, Ident _propositionId,Expression _linked_Statement, ListArgPredicat list_pointers) {
-        super( _propositionId, list_pointers, _linked_Statement);
+        super(Proposition.class.toString(), _propositionId, list_pointers, _linked_Statement);
         isAxiom = _isAxiom;
         linkedStatement = _linked_Statement;
     }
@@ -27,13 +27,14 @@ public class Proposition extends Predicat {
            label = "Proposition";
        }
 
-        if (linkedStatement == null) {
+        /*if (linkedStatement == null) {
             return label;
 
-        }
+        }*/
 
 
-       return label + ":"+linkedStatement.toString(); // leave to add info if needed later
+       //return label + ":"+linkedStatement.toString(); // leave to add info if needed later
+        return label;
     }
 
 

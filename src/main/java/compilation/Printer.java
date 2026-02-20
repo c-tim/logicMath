@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class Printer {
     //Display the depths in the Printer
-    final static String charSeparator = "--";
+    final static String charSeparator = " - ";
 
     public static configPrint currentConfig;
 

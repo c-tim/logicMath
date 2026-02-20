@@ -10,16 +10,16 @@ public class Predicat extends Expression{
 
 
     Ident Predicatid;
-    List<ArgExpression> list_expressions_linked_to_objects;
-    List<ExprVariable> list_var_in_pointers;
+    ASTList<ArgExpression> list_expressions_linked_to_objects;
+    ASTList<ExprVariable> list_var_in_pointers;
     Expression expression;
 
     /*Getters*/
-    public List<ArgExpression> getList_expressions_linked_to_objects() {
+    public ASTList<ArgExpression> getList_expressions_linked_to_objects() {
         return list_expressions_linked_to_objects;
     }
 
-    public List<ExprVariable> getList_var_in_pointers() {
+    public ASTList<ExprVariable> getList_var_in_pointers() {
         return list_var_in_pointers;
     }
 
@@ -39,19 +39,33 @@ public class Predicat extends Expression{
 
 
 
-    public Predicat(Ident _predicatId, ListArgPredicat l, Expression _expression)  {
+    public Predicat(String className,Ident _predicatId, ListArgPredicat l, Expression _expression)  {
+        super(className);
         Predicatid = _predicatId;
         expression = _expression;
-        list_expressions_linked_to_objects = new ArrayList<>();
-        list_var_in_pointers = new ArrayList<>();
+        list_expressions_linked_to_objects = new ASTList<>();
+        list_var_in_pointers = new ASTList<>();
         if (l!=null) {
             list_expressions_linked_to_objects = l.list_expression_pointers;
-            for (ArgVar vph : l.list_object_pointers) {
-                list_var_in_pointers.addAll(vph.liste_variable);
 
+            for (int i = 0; i < l.list_object_pointers.size(); i++) {
+                list_var_in_pointers.addAll(l.list_object_pointers.get(i).liste_variable);
             }
         }
+        addChild(Predicatid);
+        addChild(expression);
+        expression.refactorList(expression);
 
+        /*addChild(list_var_in_pointers);
+        addChild(list_expressions_linked_to_objects);*/
+    }
+
+    public void refactorList(){
+        //list_var_in_pointers.putElementsInParents(this);
+        for (ExprVariable evar:list_var_in_pointers){
+            addChild(evar.ident);
+        }
+        list_expressions_linked_to_objects.putElementsInParents((this));
     }
 
     @Override

@@ -223,11 +223,14 @@ expression ::= identificator_variable:a EQUAL identificator_variable:b
                          // | identificator IS  IDENT:a LPAR liste_args RPAR:z
                           :}
 | identificator_variable:a
-             {:      RESULT = ExprVarStatement.create(a);
+             {:      RESULT = ExprCallPredicat.create(a, null);
                           RESULT.setLocations(axleft, axright);
 
                          // | identificator IS  IDENT:a LPAR liste_args RPAR:z
                           :}
+|   identificator_variable:a LPAR liste_args:b RPAR:z
+    {:      RESULT = ExprCallPredicat.create(a,b);
+                    RESULT.setLocations(axleft, zxright); :}
 ;
 
 null_expression ::=             NULL:a
@@ -338,9 +341,6 @@ identificator_variable ::=  IDENT:a
 
         {:      RESULT = Ident.create("p");
                 RESULT.setLocations(axleft, axright); :}
-        |   IDENT:a LPAR liste_args:b RPAR:z
-        {:      RESULT = Ident.create(a,b);
-                RESULT.setLocations(axleft, zxright); :}
 ;
 
 in_tag   ::=   IN

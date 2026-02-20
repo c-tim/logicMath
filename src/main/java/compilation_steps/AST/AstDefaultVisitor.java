@@ -1,18 +1,29 @@
 package compilation_steps.AST;
 
+import compilation.Printer;
+
 public abstract class AstDefaultVisitor {
 
 
     public void defaultVisit(ASTNode node) {
+        defaultBehaviour(node);
+        visitChildren(node);
+    }
+
+    public void visitChildren(ASTNode node){
         for (ASTNode nodeChild : node.getChildren()) {
             nodeChild.accept(this);
         }
-        defaultBehaviour(node);
     }
 
     //Default action performed by the node
     public void defaultBehaviour(ASTNode node){
     }
+
+    public void visit(ASTNode node) {
+        Printer.printError("Node action not implemented");
+    }
+
 
     public void visit(ASTList node) {
         defaultVisit(node);
@@ -29,18 +40,28 @@ public abstract class AstDefaultVisitor {
     public void visit(ExprEqual node) {
         defaultVisit(node);
     }
-
-    public void visit(Expression node) {
+    public void visit(ExprQuantificateur node) {
         defaultVisit(node);
     }
 
-    public void visit(ArgExpression node) {
+
+    public void visit(ExprList node) {
+        defaultVisit(node);
+    }
+
+
+    public void visit(Expression node) {
         defaultVisit(node);
     }
 
     public void visit(ExprExists node) {
         defaultVisit(node);
     }
+    public void visit(ArgExpression node) {
+        defaultVisit(node);
+    }
+
+
 
     public void visit(ExprForall node){
         defaultVisit(node);
@@ -50,9 +71,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExprList node) {
-        defaultVisit(node);
-    }
+
 
     public void visit(ListArgPredicat node) {
         defaultVisit(node);
@@ -67,9 +86,6 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExprQuantificateur node) {
-        defaultVisit(node);
-    }
 
     public void visit(ExprVariable node) {
         defaultVisit(node);
@@ -79,7 +95,7 @@ public abstract class AstDefaultVisitor {
         defaultVisit(node);
     }
 
-    public void visit(ExprVarStatement node) {defaultVisit(node);}
+    public void visit(ExprCallPredicat node) {defaultVisit(node);}
 
     public void visit(Ident node){
         defaultVisit(node);
@@ -109,6 +125,7 @@ public abstract class AstDefaultVisitor {
     public void visit(StatementExpression node){
         defaultVisit(node);
     }
+
 
     public void visit(Theory node) {
         defaultVisit(node);

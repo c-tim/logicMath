@@ -24,10 +24,12 @@ public class Theory extends ASTNode {
         //Adding the nodes of TheoryBody as children of Theory for Ast Visitors
         for(Proposition prop : body.list_proposition){
             addChild(prop);
+            prop.refactorList();
         }
 
         for(Definition def : body.list_definition){
             addChild(def);
+            def.refactorList();
         }
     }
 

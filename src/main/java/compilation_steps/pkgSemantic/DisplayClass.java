@@ -12,7 +12,7 @@ public class DisplayClass extends AstDefaultVisitor {
 
     // for code lisibility, call PIEDisplayClass with separator Depth (PIE : Print If Enabled = see configPrint)
     private void PIEClassWithDepth(String text) {
-        Printer.PIEDisplayClass(text, depthLine);
+        Printer.PIEDisplayClass(text+"\n", depthLine);
     }
 
 
@@ -21,11 +21,34 @@ public class DisplayClass extends AstDefaultVisitor {
         tree.getStartNode().accept(this);
     }
 
+    public void visitChildrenWithDepth(ASTNode n){
+        depthLine++;
+        for (ASTNode nodeChild : n.getChildren()) {
+            nodeChild.accept(this);
+        }
+        depthLine--;
+    }
 
     @Override
-    public void visit(ASTList node) {
-        defaultVisit(node);
+    public void defaultBehaviour(ASTNode n){
+        PIEClassWithDepth(n.toString());
     }
+
+    /*@Override
+    public void visit(ASTList n){
+        Printer.PIEDisplayClass("[");
+        if(!n.getChildren().isEmpty()) {
+            depthLine++;
+            for (Object e : n) {
+                defaultVisit((ASTNode) e);
+            }
+            depthLine--;
+        }
+        Printer.PIEDisplayClass("]");
+    }*/
+
+
+
 
     @Override
     public void visit(ASTStartNode node) {
@@ -35,150 +58,138 @@ public class DisplayClass extends AstDefaultVisitor {
 
     @Override
     public void visit(Definition node) {
-        PIEClassWithDepth(node.toString() + " {\n");
-        depthLine++;
-        defaultVisit(node);
-        depthLine--;
-        PIEClassWithDepth(" }\n");
+        PIEClassWithDepth(" Definition {");
+        visitChildrenWithDepth(node);
+        PIEClassWithDepth("}");
     }
 
     @Override
     public void visit(ExprEqual node) {
-        PIEClassWithDepth(node.toString());
+        PIEClassWithDepth(" Equal :");
+        visitChildrenWithDepth(node);
     }
 
-    @Override
-    public void visit(Expression node) {
-        PIEClassWithDepth(node.toString());
-        defaultVisit(node);
-    }
 
     @Override
     public void visit(ArgExpression node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
     @Override
     public void visit(ExprExists node) {
-        PIEClassWithDepth(node.toString());
+        PIEClassWithDepth(" EXISTS :");
+        visitChildrenWithDepth(node);
     }
 
     @Override
     public void visit(ExprForall node) {
-        PIEClassWithDepth(node.toString());
+        PIEClassWithDepth(" FORALL :");
+        visitChildrenWithDepth(node);
     }
 
     @Override
     public void visit(ExprIs node) {
-        PIEClassWithDepth(node.toString());
+        PIEClassWithDepth(" IS_expr :");
+        visitChildrenWithDepth(node);
     }
 
     @Override
     public void visit(ExprList node) {
-        defaultVisit(node);
+        PIEClassWithDepth("Expr[");
+        visitChildrenWithDepth(node);
+        PIEClassWithDepth("    ]");
+
+
     }
 
     @Override
     public void visit(ListArgPredicat node) {
-        PIEClassWithDepth(node.toString());
+       // PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
     @Override
     public void visit(ExprNull node) {
-        PIEClassWithDepth(node.toString());
-    }
-
-    @Override
-    public void visit(Predicat node) {
-        PIEClassWithDepth(node.toString());
-        defaultVisit(node);
+        PIEClassWithDepth("Null");
+        visitChildrenWithDepth(node);
     }
 
     @Override
     public void visit(ExprQuantificateur node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
     @Override
     public void visit(ExprVariable node) {
-        PIEClassWithDepth(node.toString());
-        defaultVisit(node);
+        PIEClassWithDepth("Vars[");
+        visitChildrenWithDepth(node);
+        PIEClassWithDepth("    ]");
     }
 
     @Override
     public void visit(ArgVar node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
     @Override
-    public void visit(ExprVarStatement node) {
-        PIEClassWithDepth(node.toString());
+    public void visit(ExprCallPredicat node) {
+        PIEClassWithDepth("/////");
         defaultVisit(node);
     }
 
     @Override
     public void visit(Ident node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
     @Override
     public void visit(ListVariables node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
-    @Override
-    public void visit(objectType node) {
-        PIEClassWithDepth(node.toString());
-        defaultVisit(node);
-    }
 
-    @Override
-    public void visit(Property node) {
-        PIEClassWithDepth(node.toString());
-        defaultVisit(node);
-    }
 
     @Override
     public void visit(Proposition node) {
-        PIEClassWithDepth(node.toString()+"\n");
-        depthLine++;
-        defaultVisit(node);
-        depthLine--;
+        PIEClassWithDepth(node.toString()+"{");
+        visitChildrenWithDepth(node);
+        PIEClassWithDepth(" }");
 
     }
 
     @Override
     public void visit(Statement node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
 
     @Override
     public void visit(StatementExpression node) {
-        PIEClassWithDepth(node.toString());
+        //PIEClassWithDepth(node.toString());
         defaultVisit(node);
     }
+
+
 
     @Override
     public void visit(Theory node) {
-        PIEClassWithDepth(node.toString() + " {\n");
-        depthLine++;
-        defaultVisit(node);
-        depthLine--;
-        PIEClassWithDepth(" }\n");
+        PIEClassWithDepth("Theory {");
+        visitChildrenWithDepth(node);
+        PIEClassWithDepth(" }");
     }
 
+    /*
     @Override
-    public void visit(TheoryBody node) {
-        PIEClassWithDepth(node.toString());
-        defaultVisit(node);
+    public void visit(Expression n){
+        Printer.PIEDisplayClass("ERROR : no implementation for this expression : "+n.toString()+"\n");
     }
+*/
+
 
 
 }
